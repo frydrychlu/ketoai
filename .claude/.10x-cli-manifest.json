@@ -2,8 +2,8 @@
   "package": "@przeprogramowani/10x-cli",
   "version": "1.6.1",
   "manifestVersion": 2,
-  "lastApplied": "2026-05-27T16:13:53.310Z",
-  "lessonId": "m1l3",
+  "lastApplied": "2026-05-27T16:46:23.821Z",
+  "lessonId": "m1l4",
   "course": "10xdevs3",
   "tool": "claude-code",
   "files": {
@@ -56,6 +56,21 @@
       "10x-health-check": {
         "files": [
           "references/health-check-schema.md",
+          "SKILL.md"
+        ]
+      },
+      "10x-agents-md": {
+        "files": [
+          "SKILL.md"
+        ]
+      },
+      "10x-rule-review": {
+        "files": [
+          "SKILL.md"
+        ]
+      },
+      "10x-lesson": {
+        "files": [
           "SKILL.md"
         ]
       }
