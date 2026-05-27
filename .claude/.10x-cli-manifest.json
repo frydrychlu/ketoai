@@ -1,0 +1,68 @@
+{
+  "package": "@przeprogramowani/10x-cli",
+  "version": "1.6.1",
+  "manifestVersion": 2,
+  "lastApplied": "2026-05-27T16:13:53.310Z",
+  "lessonId": "m1l3",
+  "course": "10xdevs3",
+  "tool": "claude-code",
+  "files": {
+    "skills": {
+      "10x-init": {
+        "files": [
+          "SKILL.md"
+        ]
+      },
+      "10x-shape": {
+        "files": [
+          "references/prd-schema.md",
+          "SKILL.md"
+        ]
+      },
+      "10x-prd": {
+        "files": [
+          "SKILL.md"
+        ]
+      },
+      "10x-tech-stack-selector": {
+        "files": [
+          "references/agent-friendly-criteria.md",
+          "references/decision-flow.md",
+          "references/eval-cases.md",
+          "references/handoff-schema.md",
+          "references/residual-interview.md",
+          "references/starter-registry.yaml",
+          "SKILL.md"
+        ]
+      },
+      "10x-stack-assess": {
+        "files": [
+          "references/agent-friendly-criteria.md",
+          "SKILL.md"
+        ]
+      },
+      "10x-bootstrapper": {
+        "files": [
+          "references/bootstrapper-config.yaml",
+          "references/handoff-consumer.md",
+          "references/post-scaffold-verification.md",
+          "references/pre-scaffold-verification.md",
+          "references/refusal-protocol.md",
+          "references/scaffold-merge.md",
+          "references/verification-log-schema.md",
+          "SKILL.md"
+        ]
+      },
+      "10x-health-check": {
+        "files": [
+          "references/health-check-schema.md",
+          "SKILL.md"
+        ]
+      }
+    },
+    "prompts": [
+      "skill-explainer.md"
+    ],
+    "configs": []
+  }
+}
