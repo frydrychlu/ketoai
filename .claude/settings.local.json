@@ -17,7 +17,8 @@
       "Write",
       "PowerShell(Get-PSDrive C | Select-Object Name, @{N='Used\\(GB\\)';E={[math]::Round\\($_.Used/1GB,2\\)}}, @{N='Free\\(GB\\)';E={[math]::Round\\($_.Free/1GB,2\\)}})",
       "PowerShell(New-Item * - I have emptied C drive - now you have space)",
-      "PowerShell(Set-Clipboard *)"
+      "PowerShell(Set-Clipboard *)",
+      "Bash(Get-ChildItem *)"
     ],
     "deny": [
       "Bash(rm -rf *)"

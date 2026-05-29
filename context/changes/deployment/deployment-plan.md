@@ -2,7 +2,7 @@
 
 ## Context
 
-KetoPlanner is wired for Cloudflare Workers (`@astrojs/cloudflare` adapter, `output: "server"`, `nodejs_compat` flag, `wrangler.jsonc` present), but has never been deployed. The worker name is still the template default (`10x-astro-starter`), no `.dev.vars` file exists for local secrets, three API routes are missing a required `export const prerender = false`, and no Cloudflare secrets have been set. The goal is a clean first production deploy to `ketoai.<subdomain>.workers.dev`, with Cloudflare Workers Builds wired to auto-deploy on every push to `master`.
+KetoPlanner is wired for Cloudflare Workers (`@astrojs/cloudflare` adapter, `output: "server"`, `nodejs_compat` flag, `wrangler.jsonc` present), but has never been deployed. The worker name has been renamed to `ketoai`. No `.dev.vars` file exists for local secrets, three API routes are missing a required `export const prerender = false`, and no Cloudflare secrets have been set. The goal is a clean first production deploy to `ketoai.<subdomain>.workers.dev`, with Cloudflare Workers Builds wired to auto-deploy on every push to `master`.
 
 **Critical files:**
 - `wrangler.jsonc` — worker name rename, verified flags
@@ -16,7 +16,7 @@ KetoPlanner is wired for Cloudflare Workers (`@astrojs/cloudflare` adapter, `out
 
 > Gates: Node.js 22 installed, a Cloudflare account exists, a cloud Supabase project exists, and `npx wrangler --version` prints a version number.
 
-### 0.1 — Verify Node.js version
+### ✅ 0.1 — Verify Node.js version
 
 The project requires Node.js **v22**. Check what you have:
 
@@ -26,7 +26,7 @@ node --version
 
 Expected output: `v22.x.x`. If you see an older version or `node` is not found, download the LTS installer from [nodejs.org](https://nodejs.org) and install it. After installation, reopen your terminal and re-run the check.
 
-### 0.2 — Install project dependencies (if not done yet)
+### ✅ 0.2 — Install project dependencies (if not done yet)
 
 ```
 npm install
@@ -42,7 +42,7 @@ npx wrangler --version
 
 Expected output: `⛅️ wrangler x.y.z ...`.
 
-### 0.3 — Create a Cloudflare account
+### ✅ 0.3 — Create a Cloudflare account
 
 Wrangler needs a Cloudflare account to deploy.
 
@@ -52,7 +52,7 @@ Wrangler needs a Cloudflare account to deploy.
 
 You do **not** need to add a domain or a credit card at this stage.
 
-### 0.4 — Create a cloud Supabase project
+### ✅ 0.4 — Create a cloud Supabase project
 
 The app uses Supabase for authentication. You need a hosted project (the free tier covers the MVP comfortably).
 
@@ -67,7 +67,7 @@ The app uses Supabase for authentication. You need a hosted project (the free ti
    | Region | pick the closest region to your users |
 4. Click **Create new project**. Supabase takes ~1 minute to spin up.
 
-### 0.5 — Retrieve Supabase credentials
+### ✅ 0.5 — Retrieve Supabase credentials
 
 Once the project is ready:
 
@@ -119,7 +119,7 @@ You can re-enable it before going live if you want email verification in product
 
 > Gates: `npm run lint` passes, `npm run build` succeeds.
 
-- [ ] **2.1 Rename worker** in `wrangler.jsonc` line 3:
+- [x] **2.1 Rename worker** in `wrangler.jsonc` line 3:
   ```jsonc
   "name": "ketoai",
   ```
