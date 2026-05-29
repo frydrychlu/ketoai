@@ -227,36 +227,19 @@ Set secrets via CLI — **never** put these in `wrangler.jsonc` `vars` (they'd b
 
 This is configured in the Cloudflare dashboard (human-only step — agent cannot click UI).
 
-- [ ] **7.1** Open Cloudflare dashboard → **Workers & Pages** → `ketoai` → **Settings** → **Build**.
-- [ ] **7.2** Click **Connect to Git** → authorize GitHub → select the `KetoPlanner` repository.
-- [ ] **7.3** Configure build settings:
+- [x] **7.1** Open Cloudflare dashboard → **Workers & Pages** → `ketoai` → **Settings** → **Build**.
+- [x] **7.2** Connect to Git → GitHub authorized → `ketoai` repository selected.
+- [x] **7.3** Build settings configured:
   | Field | Value |
   |---|---|
-  | Production branch | `master` |
+  | Production branch | `main` |
   | Build command | `npm run build` |
-  | Deploy command | *(leave empty — wrangler handles it)* |
-  | Root directory | *(leave empty)* |
+  | Deploy command | `npx wrangler deploy --config dist/server/wrangler.json` |
+  | Root directory | *(empty)* |
   | Node.js version | `22` |
-- [ ] **7.4** Add **build-time environment variables** (these are for the build step, distinct from runtime secrets set in Phase 4):
-  | Variable | Value |
-  |---|---|
-  | `SUPABASE_URL` | your cloud project URL |
-  | `SUPABASE_KEY` | your anon key |
-
-  **Why:** `npm run build` runs `astro build` which evaluates the `astro:env` schema. Without `SUPABASE_URL` and `SUPABASE_KEY` at build time the build fails (matches what ci.yml already does via GitHub secrets).
-
-- [ ] **7.5** Save and trigger a test build by pushing a trivial commit to `master`:
-  ```
-  git commit --allow-empty -m "chore: trigger cloudflare workers build test"
-  git push origin master
-  ```
-- [ ] **7.6** In Cloudflare dashboard → Workers Builds → confirm build passes and new deployment appears.
-
-  **Edge case — Cloudflare Workers Builds vs Pages confusion:**
-  Workers Builds is under **Workers & Pages → your specific worker → Settings → Build**. Do NOT create a new "Pages" project — that's a separate product and won't use the `wrangler.jsonc` config.
-
-  **Edge case — build fails with `astro:env` error:**
-  The CI error will say something like `Missing required environment variable SUPABASE_URL`. Add the build-time env vars in step 7.4 — they are separate from the runtime secrets.
+- [x] **7.4** Build-time env vars — skipped. Both `SUPABASE_URL` and `SUPABASE_KEY` are `optional: true` in the `astro:env` schema; build succeeds without them. Runtime secrets (Phase 4) cover production access.
+- [x] **7.5** Build triggered on push to `main`.
+- [x] **7.6** Build passed; new deployment live in Cloudflare dashboard.
 
 ---
 
