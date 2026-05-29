@@ -4,6 +4,8 @@
 
 KetoPlanner is wired for Cloudflare Workers (`@astrojs/cloudflare` adapter, `output: "server"`, `nodejs_compat` flag, `wrangler.jsonc` present), but has never been deployed. The worker name has been renamed to `ketoai`. No `.dev.vars` file exists for local secrets, three API routes are missing a required `export const prerender = false`, and no Cloudflare secrets have been set. The goal is a clean first production deploy to `ketoai.<subdomain>.workers.dev`, with Cloudflare Workers Builds wired to auto-deploy on every push to `master`.
 
+**Development strategy:** local Supabase (Docker) for day-to-day feature work; cloud Supabase for production. `.dev.vars` points at `127.0.0.1:54321` locally; Wrangler secrets point at the cloud project in production. Migrations are developed and tested locally first, then applied to cloud before deploy.
+
 **Critical files:**
 - `wrangler.jsonc` — worker name rename, verified flags
 - `astro.config.mjs` — env schema (add `OPENROUTER_API_KEY`)
@@ -79,9 +81,9 @@ Once the project is ready:
 
    > The `anon` key is safe to use in your app. It grants public access subject to your Row Level Security policies. The `service_role` key is **not** needed and should never be used client-side.
 
-### 0.6 — Disable email confirmation during development
+### 0.6 — Disable email confirmation on the cloud project
 
-By default Supabase requires users to click a confirmation link before they can sign in. During initial testing this adds friction. Disable it now:
+By default Supabase requires users to click a confirmation link before they can sign in. Disable it on the cloud project now so production testing isn't blocked by email delivery:
 
 1. Supabase dashboard → **Authentication** → **Email**.
 2. Toggle **Confirm email** to **off**.
@@ -89,29 +91,43 @@ By default Supabase requires users to click a confirmation link before they can 
 
 You can re-enable it before going live if you want email verification in production.
 
+### ✅ 0.7 — Install Docker Desktop
+
+Local Supabase runs entirely in Docker. You need Docker Desktop installed and **running** before `npx supabase start` will work.
+
+1. Download Docker Desktop from [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/).
+2. Run the installer and follow the prompts (requires a system restart on Windows).
+3. Launch Docker Desktop — wait until the whale icon in the system tray shows **"Docker Desktop is running"**.
+4. Verify in a terminal:
+   ```
+   docker --version
+   ```
+   Expected output: `Docker version 2x.x.x, build ...`
+
+> **RAM:** Docker Desktop needs ~7 GB free RAM while the Supabase stack is running. Close memory-heavy apps if you're on a 16 GB machine.
+
 ---
 
 ## Phase 1 — Local Environment Setup
 
-> Gates: `.dev.vars` populated, `npm run dev` resolves without errors.
+> Gates: local Supabase stack running, `.dev.vars` populated with local credentials, `npm run dev` resolves without errors and the auth flow works.
 
-- [ ] **1.1** Copy env template to `.dev.vars`:
+- [x] **1.1** Copy env template to `.dev.vars`:
   ```
   cp .env.example .dev.vars
   ```
-- [ ] **1.2** Have your Supabase credentials ready — you copied them in **Phase 0.5** (Project URL and anon key). If you skipped Phase 0, go back and do it now.
-- [ ] **1.3** Populate `.dev.vars`:
-  ```
-  SUPABASE_URL=https://<project-ref>.supabase.co
-  SUPABASE_KEY=<anon-key>
-  ```
-- [ ] **1.4** Verify local dev works:
-  ```
-  npm run dev
-  ```
-  Navigate to `/auth/signup` → sign up → confirm redirect to `/auth/confirm-email`. Then sign in and confirm `/dashboard` loads.
 
-  > Email confirmation should already be disabled from Phase 0.6. If sign-in fails with "Email not confirmed", go back and toggle it off.
+- [x] **1.2** ~~Initialize the local Supabase project~~ — skipped (using cloud Supabase directly).
+
+- [x] **1.3** ~~Start the local Supabase stack~~ — skipped (using cloud Supabase directly).
+
+- [x] **1.4** Populate `.dev.vars` with cloud Supabase credentials (Project URL + anon key from Phase 0.5).
+
+- [x] **1.5** ~~Disable email confirmation in local Supabase Studio~~ — skipped (handled at cloud project level in Phase 0.6).
+
+- [x] **1.6** Verify local dev works — `npm run dev` running at `http://localhost:4321`; `.dev.vars` picked up correctly.
+
+- [x] **1.7** N/A — no local stack to stop.
 
 ---
 
@@ -125,22 +141,23 @@ You can re-enable it before going live if you want email verification in product
   ```
   Do this **before** first deploy — the name becomes the permanent `*.workers.dev` subdomain.
 
-- [ ] **2.2 Add `prerender = false` to all three API routes** (AGENTS.md hard rule):
+- [x] **2.2 Add `prerender = false` to all three API routes** (AGENTS.md hard rule):
   - `src/pages/api/auth/signin.ts` — add `export const prerender = false;` as first export
   - `src/pages/api/auth/signout.ts` — same
   - `src/pages/api/auth/signup.ts` — same
 
-- [ ] **2.3 Add `OPENROUTER_API_KEY` to `astro.config.mjs` env schema** (AI features in MVP scope, secret not wired yet):
+- [x] **2.3 Add `OPENROUTER_API_KEY` to `astro.config.mjs` env schema** (AI features in MVP scope, secret not wired yet):
   ```js
   OPENROUTER_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
   ```
   Add after the existing `SUPABASE_KEY` entry.
 
-- [ ] **2.4 Verify build is clean:**
+- [x] **2.4 Verify build is clean:**
   ```
   npm run lint
   npm run build
   ```
+  Both pass. Lint: no errors (parser warnings only). Build: completed in ~25s.
 
 ---
 
@@ -148,15 +165,8 @@ You can re-enable it before going live if you want email verification in product
 
 > Gate: `npx wrangler whoami` shows the correct Cloudflare account.
 
-- [ ] **3.1** Authenticate:
-  ```
-  npx wrangler login
-  ```
-  Opens browser OAuth flow. Token is written to `~/.wrangler/config/default.toml`.
-- [ ] **3.2** Confirm account:
-  ```
-  npx wrangler whoami
-  ```
+- [x] **3.1** Authenticate — already logged in via OAuth token.
+- [x] **3.2** Confirm account — `frydrychlu@gmail.com`, account `Frydrychlu@gmail.com's Account`.
 
 ---
 
@@ -166,14 +176,10 @@ You can re-enable it before going live if you want email verification in product
 
 Set secrets via CLI — **never** put these in `wrangler.jsonc` `vars` (they'd be visible in dashboard metadata).
 
-- [ ] **4.1** `npx wrangler secret put SUPABASE_URL` → paste cloud project URL
-- [ ] **4.2** `npx wrangler secret put SUPABASE_KEY` → paste anon key
-- [ ] **4.3** `npx wrangler secret put OPENROUTER_API_KEY` → placeholder value acceptable now (e.g. `PLACEHOLDER`); rotate when AI features land
-- [ ] **4.4** Verify:
-  ```
-  npx wrangler secret list
-  ```
-  Expected output: three entries (`SUPABASE_URL`, `SUPABASE_KEY`, `OPENROUTER_API_KEY`).
+- [x] **4.1** `npx wrangler secret put SUPABASE_URL` — uploaded (also created the `ketoai` worker stub).
+- [x] **4.2** `npx wrangler secret put SUPABASE_KEY` — uploaded.
+- [x] **4.3** `npx wrangler secret put OPENROUTER_API_KEY` — uploaded with `PLACEHOLDER`; rotate when AI features land.
+- [x] **4.4** Verified — all three secrets listed for worker `ketoai`.
 
 ---
 
@@ -181,25 +187,13 @@ Set secrets via CLI — **never** put these in `wrangler.jsonc` `vars` (they'd b
 
 > Gate: Worker live at `https://ketoai.<subdomain>.workers.dev`.
 
-- [ ] **5.1** Build:
-  ```
-  npm run build
-  ```
-- [ ] **5.2** Check bundle size (free tier limit: 10 MB compressed):
-  ```
-  npx wrangler deploy --dry-run --outdir dist-check
-  ```
-  Review the output for total compressed size. If it approaches 8 MB, flag for paid tier upgrade before adding chart libraries.
+- [x] **5.1** Build — clean, completed in ~15s.
 
-  **Edge case — bundle too large:** The current stack (Astro 6 + React 19 + shadcn + Supabase SDK) should be under 5 MB, but verify. If over 10 MB, split heavy components with `import()`.
+- [x] **5.2** Check bundle size — **390 KB gzip** (1.9 MB uncompressed). Well under the 10 MB limit.
 
-- [ ] **5.3** Deploy:
-  ```
-  npx wrangler deploy
-  ```
-  Wrangler prints the live URL: `https://ketoai.<subdomain>.workers.dev`.
+- [x] **5.3** Deploy — live at **https://ketoai.frydrychlu.workers.dev**. KV namespace `ketoai-session` auto-provisioned for sessions.
 
-- [ ] **5.4** Note the deployment version ID from output (for rollback reference).
+- [x] **5.4** Version ID: `99a934ab-5970-42b6-98f3-1f818b661510`.
 
 ---
 
@@ -207,17 +201,12 @@ Set secrets via CLI — **never** put these in `wrangler.jsonc` `vars` (they'd b
 
 > Gate: Auth flow passes end-to-end on production URL; no `Error 1101` in tail.
 
-- [ ] **6.1** Start log tail in a separate terminal:
-  ```
-  npx wrangler tail --status error
-  ```
-  Keep this running during all verification steps below.
-
-- [ ] **6.2** Open `https://ketoai.<subdomain>.workers.dev` — landing page loads.
-- [ ] **6.3** Sign up with a test email → redirected to `/auth/confirm-email`.
-- [ ] **6.4** Sign in → redirected to `/dashboard` — user email visible.
-- [ ] **6.5** Sign out → redirected to home.
-- [ ] **6.6** Visit `/dashboard` without auth → redirected to `/auth/signin`. ✓
+- [x] **6.1** Log tail monitored during verification.
+- [x] **6.2** Landing page loads at `https://ketoai.frydrychlu.workers.dev`.
+- [x] **6.3** Sign up → redirected to `/auth/confirm-email`.
+- [x] **6.4** Sign in → `/dashboard` loads with user email visible.
+- [x] **6.5** Sign out → redirected to home.
+- [x] **6.6** `/dashboard` without auth → redirected to `/auth/signin`.
 
   **Edge case — `Error 1101` (CPU time limit):**
   If you see this in `wrangler tail` during any of the above steps, upgrade immediately:
