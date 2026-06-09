@@ -20,6 +20,22 @@ KetoPlanner is a ketogenic diet tracker with macro/biomarker logging, AI analysi
 - `src/types.ts` — all shared entity and DTO types; new shared types go here, not in feature files
 - `supabase/migrations/` — SQL migration files
 
+## Data Isolation & Migration Pattern
+
+Every user-owned table follows the pattern proven by `supabase/migrations/20260609151323_isolation_canary.sql` (the `isolation_canary` reference table). Copy it:
+
+- Column convention: `id uuid primary key default gen_random_uuid()`, `user_id uuid not null references auth.users (id) on delete cascade`.
+- `alter table ... enable row level security;`
+- Four granular policies, each `to authenticated` and keyed on `auth.uid() = user_id`: SELECT (`using`), INSERT (`with check`), UPDATE (`using` + `with check`), DELETE (`using`). Isolation is enforced purely by RLS — the SSR client (`src/lib/supabase.ts`) runs every query as the logged-in user.
+
+Migration workflow (cloud-only Supabase — no local Docker):
+
+- Author the `.sql` file in `supabase/migrations/` (filename rule above).
+- One-time: `npx supabase login` then `npx supabase link --project-ref <ref>` (needs the DB password).
+- Apply: `npx supabase db push`. Migrations are forward-only; rollback is a new `drop`/`alter` migration.
+
+Verify isolation with `supabase/tests/isolation_canary_rls.sql` — a re-runnable SQL recipe that impersonates two users via `set local role authenticated` + `set local request.jwt.claims` and asserts one user cannot see another's rows. Copy it (swap table + UUIDs) to verify each new table.
+
 ## Commands
 
 - See @package.json scripts

@@ -274,25 +274,25 @@ single `auth.uid() = user_id` predicate is negligible.
 
 #### Automated
 
-- [x] 1.1 Migration filename matches the `YYYYMMDDHHmmss_short_description.sql` convention
-- [x] 1.2 `npx supabase db push` applies the migration with no remaining pending migrations
-- [x] 1.3 `npm run lint` passes
+- [x] 1.1 Migration filename matches the `YYYYMMDDHHmmss_short_description.sql` convention — a26e8ac
+- [x] 1.2 `npx supabase db push` applies the migration with no remaining pending migrations — a26e8ac
+- [x] 1.3 `npm run lint` passes — a26e8ac
 
 #### Manual
 
-- [x] 1.4 `public.isolation_canary` exists in cloud with the three columns + `auth.users` FK
-- [x] 1.5 `relrowsecurity` is `true` for `isolation_canary`
-- [x] 1.6 Four policies (SELECT/INSERT/UPDATE/DELETE) exist on the table
+- [x] 1.4 `public.isolation_canary` exists in cloud with the three columns + `auth.users` FK — a26e8ac
+- [x] 1.5 `relrowsecurity` is `true` for `isolation_canary` — a26e8ac
+- [x] 1.6 Four policies (SELECT/INSERT/UPDATE/DELETE) exist on the table — a26e8ac
 
 ### Phase 2: Isolation verification + document the pattern
 
 #### Automated
 
-- [ ] 2.1 `npm run lint` passes
-- [ ] 2.2 `supabase/tests/isolation_canary_rls.sql` exists and `AGENTS.md` contains the pattern section
+- [x] 2.1 `npm run lint` passes
+- [x] 2.2 `supabase/tests/isolation_canary_rls.sql` exists and `AGENTS.md` contains the pattern section
 
 #### Manual
 
-- [ ] 2.3 Two cloud users exist and their UUIDs are pulled from `auth.users`
-- [ ] 2.4 Impersonation script: user-B block returns only B's rows (0 of A's); user-A block returns only A's
-- [ ] 2.5 Unrestricted (editor-role) query shows both users' rows, confirming isolation is RLS-driven
+- [x] 2.3 Two cloud users exist and their UUIDs are pulled from `auth.users`
+- [x] 2.4 Impersonation script: user-B block returns only B's rows (0 of A's); user-A block returns only A's
+- [x] 2.5 Unrestricted (editor-role) query shows both users' rows, confirming isolation is RLS-driven
