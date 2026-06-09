@@ -288,11 +288,11 @@ single `auth.uid() = user_id` predicate is negligible.
 
 #### Automated
 
-- [x] 2.1 `npm run lint` passes
-- [x] 2.2 `supabase/tests/isolation_canary_rls.sql` exists and `AGENTS.md` contains the pattern section
+- [x] 2.1 `npm run lint` passes — 00037a0
+- [x] 2.2 `supabase/tests/isolation_canary_rls.sql` exists and `AGENTS.md` contains the pattern section — 00037a0
 
 #### Manual
 
-- [x] 2.3 Two cloud users exist and their UUIDs are pulled from `auth.users`
-- [x] 2.4 Impersonation script: user-B block returns only B's rows (0 of A's); user-A block returns only A's
-- [x] 2.5 Unrestricted (editor-role) query shows both users' rows, confirming isolation is RLS-driven
+- [x] 2.3 Two cloud users exist and their UUIDs are pulled from `auth.users` — 00037a0
+- [x] 2.4 Impersonation script: user-B block returns only B's rows (0 of A's); user-A block returns only A's — 00037a0
+- [x] 2.5 Unrestricted (editor-role) query shows both users' rows, confirming isolation is RLS-driven — 00037a0
