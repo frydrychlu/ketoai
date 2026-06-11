@@ -19,7 +19,8 @@
       "PowerShell(New-Item * - I have emptied C drive - now you have space)",
       "PowerShell(Set-Clipboard *)",
       "Bash(Get-ChildItem *)",
-      "Bash(Copy-Item *)"
+      "Bash(Copy-Item *)",
+      "Bash(echo \"lint exit: $?\")"
     ],
     "deny": [
       "Bash(rm -rf *)"
