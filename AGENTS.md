@@ -28,13 +28,13 @@ Every user-owned table follows the pattern proven by `supabase/migrations/202606
 - `alter table ... enable row level security;`
 - Four granular policies, each `to authenticated` and keyed on `auth.uid() = user_id`: SELECT (`using`), INSERT (`with check`), UPDATE (`using` + `with check`), DELETE (`using`). Isolation is enforced purely by RLS — the SSR client (`src/lib/supabase.ts`) runs every query as the logged-in user.
 
-Migration workflow (cloud-only Supabase — no local Docker):
+Migration workflow (local-first: develop against local Supabase via Docker, push to cloud on merge to `master`):
 
 - Author the `.sql` file in `supabase/migrations/` (filename rule above).
-- One-time: `npx supabase login` then `npx supabase link --project-ref <ref>` (needs the DB password).
-- Apply: `npx supabase db push`. Migrations are forward-only; rollback is a new `drop`/`alter` migration.
+- Local dev: `npx supabase start` (needs Docker Desktop running) brings up the local stack and auto-applies all migrations. Iterate with `npx supabase db reset` to wipe and replay migrations from scratch. `.env`/`.dev.vars` point at local (`http://127.0.0.1:54321`); Studio is at `http://127.0.0.1:54323`. Stop with `npx supabase stop`.
+- Push to cloud (after merge): one-time `npx supabase login` + `npx supabase link --project-ref <ref>` (needs the DB password), then `npx supabase db push`. `db push` reaches the cloud via the linked project, not via `.env`, so local creds in `.env` never interfere. Migrations are forward-only; rollback is a new `drop`/`alter` migration.
 
-Verify isolation with `supabase/tests/isolation_canary_rls.sql` — a re-runnable SQL recipe that impersonates two users via `set local role authenticated` + `set local request.jwt.claims` and asserts one user cannot see another's rows. Copy it (swap table + UUIDs) to verify each new table.
+Verify isolation with `supabase/tests/isolation_canary_rls.sql` — a re-runnable SQL recipe that impersonates two users via `set local role authenticated` + `set local request.jwt.claims` and asserts one user cannot see another's rows. Run it locally against the db container (`docker exec -i supabase_db_<project_id> psql -U postgres -d postgres < <file>`) after creating two `auth.users`, or in the cloud SQL Editor. Copy it (swap table + UUIDs) to verify each new table.
 
 ## Commands
 

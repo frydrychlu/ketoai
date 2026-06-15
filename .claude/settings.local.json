@@ -20,7 +20,9 @@
       "PowerShell(Set-Clipboard *)",
       "Bash(Get-ChildItem *)",
       "Bash(Copy-Item *)",
-      "Bash(echo \"lint exit: $?\")"
+      "Bash(echo \"lint exit: $?\")",
+      "Bash(docker exec *)",
+      "Skill(10x-implement)"
     ],
     "deny": [
       "Bash(rm -rf *)"
