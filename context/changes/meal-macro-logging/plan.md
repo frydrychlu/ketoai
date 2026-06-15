@@ -326,28 +326,28 @@ Replace the `/dashboard` placeholder with the server-rendered daily total + meal
 
 #### Automated
 
-- [x] 1.1 `npm install zod` completes and zod is in package.json dependencies
-- [x] 1.2 Migration applies cleanly locally: `npx supabase db reset` runs without error
-- [x] 1.3 `meals` table + 4 policies exist (psql pg_policy query returns 4 rows)
-- [x] 1.4 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 1.1 `npm install zod` completes and zod is in package.json dependencies — 27726e9
+- [x] 1.2 Migration applies cleanly locally: `npx supabase db reset` runs without error — 27726e9
+- [x] 1.3 `meals` table + 4 policies exist (psql pg_policy query returns 4 rows) — 27726e9
+- [x] 1.4 Typecheck/lint pass: `npx astro sync && npm run lint` — 27726e9
 
 #### Manual
 
-- [x] 1.5 `meals_rls.sql` shows "RLS OK"; user B sees only its own row
-- [x] 1.6 `src/types.ts` types match the migration columns
+- [x] 1.5 `meals_rls.sql` shows "RLS OK"; user B sees only its own row — 27726e9
+- [x] 1.6 `src/types.ts` types match the migration columns — 27726e9
 
 ### Phase 2: Macro-parsing service (the OpenRouter spike)
 
 #### Automated
 
-- [ ] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [ ] 2.2 Production build succeeds: `npm run build`
+- [x] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 2.2 Production build succeeds: `npm run build`
 
 #### Manual
 
-- [ ] 2.3 Live `parseMealToMacros("jajecznica z 3 jajek na maśle")` returns a sensible 4-number macro object within seconds
-- [ ] 2.4 Forced bad response triggers exactly one retry then a thrown MacroParseError
-- [ ] 2.5 No API key value appears in any log line
+- [x] 2.3 Live `parseMealToMacros("jajecznica z 3 jajek na maśle")` returns a sensible 4-number macro object within seconds
+- [x] 2.4 Forced bad response triggers exactly one retry then a thrown MacroParseError
+- [x] 2.5 No API key value appears in any log line
 
 ### Phase 3: API routes — create & delete meals
 
