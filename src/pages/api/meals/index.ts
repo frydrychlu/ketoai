@@ -7,11 +7,46 @@ import { createClient } from "@/lib/supabase";
 import { parseMealToMacros, MacroParseError } from "@/lib/services/macros";
 import { getDailyTotal } from "@/lib/services/meals";
 
+// The browser's local calendar date, ISO YYYY-MM-DD.
+const daySchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Nieprawidłowa data");
+
 const createMealSchema = z.object({
   description: z.string().trim().min(1, "Opis posiłku jest wymagany"),
-  // The browser's local calendar date, ISO YYYY-MM-DD.
-  day: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Nieprawidłowa data"),
+  day: daySchema,
 });
+
+// GET /api/meals?day=YYYY-MM-DD — the day's meals + macro total for the current
+// user. The dashboard island calls this on mount with the browser's local date.
+export const GET: APIRoute = async (context) => {
+  const user = context.locals.user;
+  if (!user) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const supabase = createClient(context.request.headers, context.cookies);
+  if (!supabase) {
+    return Response.json({ error: "Supabase is not configured" }, { status: 500 });
+  }
+
+  const parsed = daySchema.safeParse(new URL(context.request.url).searchParams.get("day"));
+  if (!parsed.success) {
+    return Response.json({ error: "Invalid day" }, { status: 400 });
+  }
+
+  const { data: meals, error } = await supabase
+    .from("meals")
+    .select("*")
+    .eq("day", parsed.data)
+    .order("logged_at", { ascending: true })
+    .overrideTypes<Meal[], { merge: false }>();
+
+  if (error) {
+    return Response.json({ error: "Could not load meals" }, { status: 500 });
+  }
+
+  const total = await getDailyTotal(supabase, parsed.data);
+  return Response.json({ meals, total });
+};
 
 export const POST: APIRoute = async (context) => {
   const user = context.locals.user;

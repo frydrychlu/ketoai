@@ -353,28 +353,28 @@ Replace the `/dashboard` placeholder with the server-rendered daily total + meal
 
 #### Automated
 
-- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [x] 3.2 Build succeeds: `npm run build`
+- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint` — 04159bf
+- [x] 3.2 Build succeeds: `npm run build` — 04159bf
 
 #### Manual
 
-- [x] 3.3 Valid POST returns meal + correct total; row visible in Studio
-- [x] 3.4 Invalid input → 400; unauthenticated → 401
-- [x] 3.5 Unparseable description → 422 with no row inserted
-- [x] 3.6 DELETE removes own row and returns reduced total; other user's id → 404
-- [x] 3.7 RLS holds across two users (no cross-user fetch/delete)
+- [x] 3.3 Valid POST returns meal + correct total; row visible in Studio — 04159bf
+- [x] 3.4 Invalid input → 400; unauthenticated → 401 — 04159bf
+- [x] 3.5 Unparseable description → 422 with no row inserted — 04159bf
+- [x] 3.6 DELETE removes own row and returns reduced total; other user's id → 404 — 04159bf
+- [x] 3.7 RLS holds across two users (no cross-user fetch/delete) — 04159bf
 
 ### Phase 4: Dashboard UI — meal logger + today's total
 
 #### Automated
 
-- [ ] 4.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [ ] 4.2 Build succeeds: `npm run build`
+- [x] 4.1 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 4.2 Build succeeds: `npm run build`
 
 #### Manual
 
-- [ ] 4.3 `/dashboard` shows form + today's total (zeros when empty)
-- [ ] 4.4 Submitting a Polish meal shows pending, then meal + total update without full reload
-- [ ] 4.5 Deleting a meal drops the total in place
-- [ ] 4.6 Unparseable description shows inline error, adds nothing, preserves input
-- [ ] 4.7 Second user sees an empty dashboard; no sign-in/out regressions
+- [x] 4.3 `/dashboard` shows form + today's total (zeros when empty)
+- [x] 4.4 Submitting a Polish meal shows pending, then meal + total update without full reload
+- [x] 4.5 Deleting a meal drops the total in place
+- [x] 4.6 Unparseable description shows inline error, adds nothing, preserves input
+- [x] 4.7 Second user sees an empty dashboard; no sign-in/out regressions
