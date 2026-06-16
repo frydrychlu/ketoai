@@ -368,13 +368,13 @@ Replace the `/dashboard` placeholder with the server-rendered daily total + meal
 
 #### Automated
 
-- [x] 4.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [x] 4.2 Build succeeds: `npm run build`
+- [x] 4.1 Typecheck/lint pass: `npx astro sync && npm run lint` — 6321561
+- [x] 4.2 Build succeeds: `npm run build` — 6321561
 
 #### Manual
 
-- [x] 4.3 `/dashboard` shows form + today's total (zeros when empty)
-- [x] 4.4 Submitting a Polish meal shows pending, then meal + total update without full reload
-- [x] 4.5 Deleting a meal drops the total in place
-- [x] 4.6 Unparseable description shows inline error, adds nothing, preserves input
-- [x] 4.7 Second user sees an empty dashboard; no sign-in/out regressions
+- [x] 4.3 `/dashboard` shows form + today's total (zeros when empty) — 6321561
+- [x] 4.4 Submitting a Polish meal shows pending, then meal + total update without full reload — 6321561
+- [x] 4.5 Deleting a meal drops the total in place — 6321561
+- [x] 4.6 Unparseable description shows inline error, adds nothing, preserves input — 6321561
+- [x] 4.7 Second user sees an empty dashboard; no sign-in/out regressions — 6321561
