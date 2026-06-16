@@ -340,29 +340,29 @@ Replace the `/dashboard` placeholder with the server-rendered daily total + meal
 
 #### Automated
 
-- [x] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [x] 2.2 Production build succeeds: `npm run build`
+- [x] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint` — 8114780
+- [x] 2.2 Production build succeeds: `npm run build` — 8114780
 
 #### Manual
 
-- [x] 2.3 Live `parseMealToMacros("jajecznica z 3 jajek na maśle")` returns a sensible 4-number macro object within seconds
-- [x] 2.4 Forced bad response triggers exactly one retry then a thrown MacroParseError
-- [x] 2.5 No API key value appears in any log line
+- [x] 2.3 Live `parseMealToMacros("jajecznica z 3 jajek na maśle")` returns a sensible 4-number macro object within seconds — 8114780
+- [x] 2.4 Forced bad response triggers exactly one retry then a thrown MacroParseError — 8114780
+- [x] 2.5 No API key value appears in any log line — 8114780
 
 ### Phase 3: API routes — create & delete meals
 
 #### Automated
 
-- [ ] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [ ] 3.2 Build succeeds: `npm run build`
+- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 3.2 Build succeeds: `npm run build`
 
 #### Manual
 
-- [ ] 3.3 Valid POST returns meal + correct total; row visible in Studio
-- [ ] 3.4 Invalid input → 400; unauthenticated → 401
-- [ ] 3.5 Unparseable description → 422 with no row inserted
-- [ ] 3.6 DELETE removes own row and returns reduced total; other user's id → 404
-- [ ] 3.7 RLS holds across two users (no cross-user fetch/delete)
+- [x] 3.3 Valid POST returns meal + correct total; row visible in Studio
+- [x] 3.4 Invalid input → 400; unauthenticated → 401
+- [x] 3.5 Unparseable description → 422 with no row inserted
+- [x] 3.6 DELETE removes own row and returns reduced total; other user's id → 404
+- [x] 3.7 RLS holds across two users (no cross-user fetch/delete)
 
 ### Phase 4: Dashboard UI — meal logger + today's total
 
