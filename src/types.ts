@@ -33,3 +33,47 @@ export interface CreateMealCommand {
 
 /** Aggregated macro totals for a single day. */
 export type DailyMacroTotal = MacroBreakdown;
+
+// --- Health profile (S-02) -------------------------------------------------
+
+/**
+ * The five standard activity levels (TDEE ladder). Stored as text on
+ * `public.health_profiles` and guarded by a CHECK constraint; the API's Zod
+ * enum and the form's options both source their values from `ACTIVITY_LEVELS`.
+ */
+export const ACTIVITY_LEVELS = ["sedentary", "light", "moderate", "very", "extra"] as const;
+
+/** One of the five activity-level keys. */
+export type ActivityLevel = (typeof ACTIVITY_LEVELS)[number];
+
+/**
+ * A persisted health-profile row (shape returned by the Supabase client for
+ * public.health_profiles). A singleton per user. All profile fields are nullable
+ * because partial saves are allowed.
+ */
+export interface HealthProfile {
+  id: string;
+  user_id: string;
+  age: number | null;
+  weight_kg: number | null;
+  height_cm: number | null;
+  activity_level: ActivityLevel | null;
+  health_goals: string | null;
+  /** Row insert timestamp, ISO 8601. */
+  created_at: string;
+  /** Row last-update timestamp, ISO 8601. */
+  updated_at: string;
+}
+
+/**
+ * The validated upsert payload for a health profile. Every field is nullable:
+ * a cleared field is sent as explicit `null` so the upsert NULLs that column on
+ * the conflict-UPDATE path (never `undefined`, which PostgREST would skip).
+ */
+export interface UpdateHealthProfileCommand {
+  age: number | null;
+  weight_kg: number | null;
+  height_cm: number | null;
+  activity_level: ActivityLevel | null;
+  health_goals: string | null;
+}
