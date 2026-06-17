@@ -26,7 +26,11 @@
       "PowerShell(try { Get-NetTCPConnection -LocalPort 4321 -State Listen -ErrorAction Stop | Select-Object -ExpandProperty OwningProcess -Unique | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue } } catch { \"no listener on 4321\" }; Start-Sleep -Seconds 1; \"killed dev server if running\")",
       "Bash(grep -iA3 \"enable_confirmations\" \"C:\\\\Projects\\\\genAI\\\\10xDevs_3\\\\KetoPlanner\\\\supabase\\\\config.toml\")",
       "PowerShell(Get-CimInstance *)",
-      "Bash(echo \"non-empty diff exit=$?\")"
+      "Bash(echo \"non-empty diff exit=$?\")",
+      "Bash(echo \"exit=$?\")",
+      "Bash(grep -vE \"projectService|Delete|problems|potentially|^\\\\s*$|error|warning\")",
+      "Bash(echo \"fix exit=$?\")",
+      "Bash(echo \"lint exit=$?\")"
     ],
     "deny": [
       "Bash(rm -rf *)"

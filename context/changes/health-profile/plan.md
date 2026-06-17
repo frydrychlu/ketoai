@@ -382,30 +382,30 @@ existing sign-out control. No other dashboard change.
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly locally: `npx supabase db reset` runs without error
-- [x] 1.2 Table + 4 policies exist (psql pg_policy query returns 4 rows)
-- [x] 1.3 `unique (user_id)` constraint exists (`\d public.health_profiles`)
-- [x] 1.4 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 1.1 Migration applies cleanly locally: `npx supabase db reset` runs without error — 0b8dc4a
+- [x] 1.2 Table + 4 policies exist (psql pg_policy query returns 4 rows) — 0b8dc4a
+- [x] 1.3 `unique (user_id)` constraint exists (`\d public.health_profiles`) — 0b8dc4a
+- [x] 1.4 Typecheck/lint pass: `npx astro sync && npm run lint` — 0b8dc4a
 
 #### Manual
 
-- [x] 1.5 `health_profiles_rls.sql` proof passes; user B sees only its own row
-- [x] 1.6 `src/types.ts` profile types match the migration columns
+- [x] 1.5 `health_profiles_rls.sql` proof passes; user B sees only its own row — 0b8dc4a
+- [x] 1.6 `src/types.ts` profile types match the migration columns — 0b8dc4a
 
 ### Phase 2: Profile service + upsert API route
 
 #### Automated
 
-- [ ] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [ ] 2.2 Build succeeds: `npm run build`
+- [x] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 2.2 Build succeeds: `npm run build`
 
 #### Manual
 
-- [ ] 2.3 Valid POST upserts the row (visible in Studio) and redirects to `/profile?saved=1`
-- [ ] 2.4 A second submit updates the same row (no duplicate)
-- [ ] 2.5 Partial submit saves provided fields, leaves the rest NULL
-- [ ] 2.6 Out-of-range value redirects to `/profile?error=...` and persists nothing
-- [ ] 2.7 Unauthenticated POST rejected (401 or redirect to signin)
+- [x] 2.3 Valid POST upserts the row (visible in Studio) and redirects to `/profile?saved=1`
+- [x] 2.4 A second submit updates the same row (no duplicate)
+- [x] 2.5 Partial submit saves provided fields, leaves the rest NULL
+- [x] 2.6 Out-of-range value redirects to `/profile?error=...` and persists nothing
+- [x] 2.7 Unauthenticated POST rejected (401 or redirect to signin)
 
 ### Phase 3: UI — /profile page, form island, dashboard link, route protection
 
