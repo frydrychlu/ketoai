@@ -1,7 +1,7 @@
 ---
 change_id: health-profile
 title: Health profile
-status: implementing
+status: implemented
 created: 2026-06-16
 updated: 2026-06-17
 archived_at: null

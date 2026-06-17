@@ -411,15 +411,15 @@ existing sign-out control. No other dashboard change.
 
 #### Automated
 
-- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [x] 3.2 Build succeeds: `npm run build`
+- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint` — e4e3a4a
+- [x] 3.2 Build succeeds: `npm run build` — e4e3a4a
 
 #### Manual
 
-- [x] 3.3 Dashboard "Profile" link → `/profile` with an empty form on first visit
-- [x] 3.4 Save reloads prefilled with saved values + "saved" confirmation
-- [x] 3.5 Edit + re-save updates values (still a single row in Studio)
-- [x] 3.6 Partial save persists provided fields, leaves rest blank on return
-- [x] 3.7 Out-of-range number shows inline error, persists nothing
-- [x] 3.8 `/profile` while logged out redirects to `/auth/signin`
-- [x] 3.9 Second user sees an empty profile; no dashboard/meals/auth regressions
+- [x] 3.3 Dashboard "Profile" link → `/profile` with an empty form on first visit — e4e3a4a
+- [x] 3.4 Save reloads prefilled with saved values + "saved" confirmation — e4e3a4a
+- [x] 3.5 Edit + re-save updates values (still a single row in Studio) — e4e3a4a
+- [x] 3.6 Partial save persists provided fields, leaves rest blank on return — e4e3a4a
+- [x] 3.7 Out-of-range number shows inline error, persists nothing — e4e3a4a
+- [x] 3.8 `/profile` while logged out redirects to `/auth/signin` — e4e3a4a
+- [x] 3.9 Second user sees an empty profile; no dashboard/meals/auth regressions — e4e3a4a
