@@ -15,14 +15,22 @@ const { user } = Astro.locals;
           </h1>
           <p class="text-sm text-blue-100/60">{user?.email}</p>
         </div>
-        <form method="POST" action="/api/auth/signout">
-          <button
-            type="submit"
+        <div class="flex items-center gap-2">
+          <a
+            href="/profile"
             class="rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white transition-colors hover:bg-white/20"
           >
-            Sign out
-          </button>
-        </form>
+            Profile
+          </a>
+          <form method="POST" action="/api/auth/signout">
+            <button
+              type="submit"
+              class="rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white transition-colors hover:bg-white/20"
+            >
+              Sign out
+            </button>
+          </form>
+        </div>
       </header>
       <div class="rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
         <MealLogger client:load />

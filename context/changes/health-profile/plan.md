@@ -396,30 +396,30 @@ existing sign-out control. No other dashboard change.
 
 #### Automated
 
-- [x] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [x] 2.2 Build succeeds: `npm run build`
+- [x] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint` — 17e814f
+- [x] 2.2 Build succeeds: `npm run build` — 17e814f
 
 #### Manual
 
-- [x] 2.3 Valid POST upserts the row (visible in Studio) and redirects to `/profile?saved=1`
-- [x] 2.4 A second submit updates the same row (no duplicate)
-- [x] 2.5 Partial submit saves provided fields, leaves the rest NULL
-- [x] 2.6 Out-of-range value redirects to `/profile?error=...` and persists nothing
-- [x] 2.7 Unauthenticated POST rejected (401 or redirect to signin)
+- [x] 2.3 Valid POST upserts the row (visible in Studio) and redirects to `/profile?saved=1` — 17e814f
+- [x] 2.4 A second submit updates the same row (no duplicate) — 17e814f
+- [x] 2.5 Partial submit saves provided fields, leaves the rest NULL — 17e814f
+- [x] 2.6 Out-of-range value redirects to `/profile?error=...` and persists nothing — 17e814f
+- [x] 2.7 Unauthenticated POST rejected (401 or redirect to signin) — 17e814f
 
 ### Phase 3: UI — /profile page, form island, dashboard link, route protection
 
 #### Automated
 
-- [ ] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [ ] 3.2 Build succeeds: `npm run build`
+- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 3.2 Build succeeds: `npm run build`
 
 #### Manual
 
-- [ ] 3.3 Dashboard "Profile" link → `/profile` with an empty form on first visit
-- [ ] 3.4 Save reloads prefilled with saved values + "saved" confirmation
-- [ ] 3.5 Edit + re-save updates values (still a single row in Studio)
-- [ ] 3.6 Partial save persists provided fields, leaves rest blank on return
-- [ ] 3.7 Out-of-range number shows inline error, persists nothing
-- [ ] 3.8 `/profile` while logged out redirects to `/auth/signin`
-- [ ] 3.9 Second user sees an empty profile; no dashboard/meals/auth regressions
+- [x] 3.3 Dashboard "Profile" link → `/profile` with an empty form on first visit
+- [x] 3.4 Save reloads prefilled with saved values + "saved" confirmation
+- [x] 3.5 Edit + re-save updates values (still a single row in Studio)
+- [x] 3.6 Partial save persists provided fields, leaves rest blank on return
+- [x] 3.7 Out-of-range number shows inline error, persists nothing
+- [x] 3.8 `/profile` while logged out redirects to `/auth/signin`
+- [x] 3.9 Second user sees an empty profile; no dashboard/meals/auth regressions
