@@ -5,10 +5,18 @@ import { z } from "zod";
 import type { Meal } from "@/types";
 import { createClient } from "@/lib/supabase";
 import { parseMealToMacros, MacroParseError } from "@/lib/services/macros";
-import { getDailyTotal } from "@/lib/services/meals";
+import { getDailyTotal, sumDailyTotal } from "@/lib/services/meals";
 
-// The browser's local calendar date, ISO YYYY-MM-DD.
-const daySchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Nieprawidłowa data");
+// The browser's local calendar date, ISO YYYY-MM-DD. The refine rejects
+// structurally-valid but non-existent dates (e.g. 2026-13-45, 2026-02-30)
+// so a bad value never reaches the LLM call or the `date`-column insert.
+const daySchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "Nieprawidłowa data")
+  .refine((s) => {
+    const d = new Date(`${s}T00:00:00Z`);
+    return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === s;
+  }, "Nieprawidłowa data");
 
 const createMealSchema = z.object({
   description: z.string().trim().min(1, "Opis posiłku jest wymagany"),
@@ -44,7 +52,8 @@ export const GET: APIRoute = async (context) => {
     return Response.json({ error: "Could not load meals" }, { status: 500 });
   }
 
-  const total = await getDailyTotal(supabase, parsed.data);
+  // Sum from the rows we already fetched — no need for a second query here.
+  const total = sumDailyTotal(meals);
   return Response.json({ meals, total });
 };
 

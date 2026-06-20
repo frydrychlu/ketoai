@@ -318,6 +318,13 @@ Replace the `/dashboard` placeholder with the server-rendered daily total + meal
 - SSR client: `src/lib/supabase.ts`; React island pattern: `src/components/auth/SignInForm.tsx`
 - Local dev flow: `notes/local-dev-flow.md`
 
+## Addenda (post-implementation)
+
+> Deviations from the original contract that were consciously accepted during impl review (2026-06-20). See `reviews/impl-review.md`.
+
+- **Dashboard loads client-side, not via SSR prop-seeding (F1).** Phase 4 specified `dashboard.astro` SSR-query today's meals + total and pass them as props to `<MealLogger>`. The implementation instead renders `<MealLogger client:load />` with no props; the island computes the browser's local `YYYY-MM-DD` and fetches `GET /api/meals?day=<date>` on mount. This is required because the server cannot know the browser's local calendar date, and `day` is authoritative client input per Critical Implementation Details. This deviation added an unplanned `GET /api/meals` handler (`src/pages/api/meals/index.ts`) as the data source for first paint.
+- **DELETE derives `day` from the deleted row, not a `?day=` query param (F6).** Phase 3 specified the delete endpoint accept `day` as a query param. The implementation reads `deleted.day` via `.delete().select().single()` and the client omits `?day=`. Functionally equivalent with one fewer trust point.
+
 ## Progress
 
 > Convention: `- [ ]` pending, `- [x]` done. Append ` — <commit sha>` when a step lands. Do not rename step titles. See `references/progress-format.md`.

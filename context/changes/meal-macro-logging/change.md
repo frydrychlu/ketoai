@@ -1,9 +1,9 @@
 ---
 change_id: meal-macro-logging
 title: Meal macro logging
-status: implemented
+status: impl_reviewed
 created: 2026-06-09
-updated: 2026-06-16
+updated: 2026-06-20
 archived_at: null
 ---
 
