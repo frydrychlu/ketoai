@@ -25,6 +25,21 @@ export class MacroParseError extends Error {
   }
 }
 
+/**
+ * An OpenRouter HTTP failure. `retryable` is true only for transient faults
+ * (5xx) — 4xx responses (bad key, bad request, rate limit) won't succeed on an
+ * immediate retry, so we fail fast instead of burning a second call.
+ */
+class OpenRouterError extends Error {
+  retryable: boolean;
+  constructor(message: string, retryable: boolean) {
+    super(message);
+    this.retryable = retryable;
+  }
+}
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const SYSTEM_PROMPT = [
   "Jesteś asystentem żywieniowym. Użytkownik opisuje po polsku posiłek, który zjadł.",
   "Oszacuj wartości odżywcze CAŁEGO opisanego posiłku na podstawie typowych wartości produktów.",
@@ -45,11 +60,15 @@ export async function parseMealToMacros(description: string): Promise<MacroBreak
 
   let lastError: unknown;
   // One initial attempt + one retry (decision: retry once, then reject).
+  // Only transient faults are retried; a non-retryable 4xx fails immediately.
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       return await requestMacros(description);
     } catch (error) {
       lastError = error;
+      const retryable = error instanceof OpenRouterError ? error.retryable : true;
+      if (!retryable || attempt === 1) break;
+      await delay(300);
     }
   }
   throw new MacroParseError("Could not parse meal into macros", { cause: lastError });
@@ -74,7 +93,8 @@ async function requestMacros(description: string): Promise<MacroBreakdown> {
   });
 
   if (!response.ok) {
-    throw new Error(`OpenRouter request failed with status ${response.status}`);
+    // Only 5xx is worth retrying; 4xx (bad key/request, rate limit) won't change.
+    throw new OpenRouterError(`OpenRouter request failed with status ${response.status}`, response.status >= 500);
   }
 
   const payload = (await response.json()) as {
