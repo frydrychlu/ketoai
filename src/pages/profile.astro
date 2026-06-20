@@ -9,13 +9,19 @@ const { user } = Astro.locals;
 
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 let profile: HealthProfile | null = null;
+let loadError: string | null = null;
 if (supabase) {
-  profile = await getProfile(supabase);
+  try {
+    profile = await getProfile(supabase);
+  } catch {
+    // Degrade to an empty form rather than 500ing the page on a transient read error.
+    loadError = "Could not load your profile. You can still save changes below.";
+  }
 }
 
 const params = Astro.url.searchParams;
 const saved = params.get("saved") === "1";
-const serverError = params.get("error");
+const serverError = params.get("error") ?? loadError;
 ---
 
 <Layout title="Profile">

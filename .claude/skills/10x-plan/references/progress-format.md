@@ -1,6 +1,6 @@
 # `## Progress` Section Reference
 
-The `## Progress` section in `plan.md` is the **single source of truth** for execution state of a change. This document defines its shape so every skill that reads or writes it (`/10x-plan`, `/10x-implement`, `/10x-status`, `/10x-impl-review`, the migration script) treats it as a mechanical contract.
+The `## Progress` section in `plan.md` is the **single source of truth** for execution state of a change. This document defines its shape so every skill that reads or writes it (`/10x-plan`, `/10x-implement`, `/10x-tdd`, `/10x-e2e`, `/10x-goal-implement`, `/10x-status`, `/10x-impl-review`, the migration script) treats it as a mechanical contract.
 
 ## Where it lives
 
@@ -46,7 +46,7 @@ At the bottom of `context/changes/<change-id>/plan.md`, after `## References`. E
 
 ## Mutation surface
 
-- `/10x-implement` and its test-first sibling `/10x-tdd` are the skills that flip `[ ]` → `[x]` and append the SHA suffix. They write Progress **identically** — a change can be driven by either or both, in any order (e.g. TDD one phase, hand the next to `/10x-implement`), and state is never lost. Checkbox flips happen **per step**, as each step completes; the SHA suffix is appended **at phase end**, in one shot, after the closing commit lands. Mid-phase, completed rows sit `[x]` without a SHA suffix — this is a valid intermediate state, not drift.
+- `/10x-implement`, its test-first sibling `/10x-tdd`, its browser-level sibling `/10x-e2e`, and its autonomous sibling `/10x-goal-implement` are the skills that flip `[ ]` → `[x]` and append the SHA suffix. They write Progress **identically** — a change can be driven by any of them, in any order (e.g. TDD one phase, hand the next to `/10x-implement`, add an E2E layer with `/10x-e2e`, or run the whole plan unattended under `/10x-goal-implement`), and state is never lost. Checkbox flips happen **per step**, as each step completes; the SHA suffix is appended **at phase end**, in one shot, after the closing commit lands. Mid-phase, completed rows sit `[x]` without a SHA suffix — this is a valid intermediate state, not drift. `/10x-goal-implement` runs without human interaction and confines itself to the `#### Automated` rows — it never flips `#### Manual` rows, leaving them as the post-run human checklist — but the rows it does write follow this contract exactly.
 - All other skills (`/10x-status`, `/10x-impl-review`, `/10x-impl-review-ci`) **read** Progress and **never write to it**.
 - `/10x-plan` writes the Progress section once at planning time, with all steps as `[ ]` and no SHA suffixes.
 - The `/10x-archive` skill does not modify Progress; archived plans retain their final Progress state as historical record.

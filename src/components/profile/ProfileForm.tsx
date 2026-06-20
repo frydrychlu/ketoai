@@ -48,6 +48,7 @@ export default function ProfileForm({ initial, serverError, saved }: Props) {
     const value = Number(trimmed);
     const { min, max } = RANGES[field];
     if (Number.isNaN(value)) return "Enter a number";
+    if (field === "age" && !Number.isInteger(value)) return "Enter a whole number";
     if (value < min || value > max) return `Must be between ${min} and ${max}`;
     return undefined;
   }

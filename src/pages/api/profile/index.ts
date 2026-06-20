@@ -17,6 +17,16 @@ const updateHealthProfileSchema = z.object({
   health_goals: z.string().min(1).nullable(),
 });
 
+// Human labels for the validation banner, so a server-side rejection reads
+// "Weight (kg): ..." rather than the raw column name.
+const FIELD_LABELS: Record<string, string> = {
+  age: "Age",
+  weight_kg: "Weight (kg)",
+  height_cm: "Height (cm)",
+  activity_level: "Activity level",
+  health_goals: "Health goals",
+};
+
 /** Read a form field, trim it, and treat an empty string as "leave blank" (null). */
 function str(form: FormData, key: string): string | null {
   const value = form.get(key);
@@ -54,14 +64,16 @@ export const POST: APIRoute = async (context) => {
   const parsed = updateHealthProfileSchema.safeParse(raw);
   if (!parsed.success) {
     const issue = parsed.error.issues[0];
-    const message = `${issue.path.join(".")}: ${issue.message}`;
+    const field = String(issue.path[0] ?? "");
+    const label = FIELD_LABELS[field] ?? field;
+    const message = `${label}: ${issue.message}`;
     return context.redirect(`/profile?error=${encodeURIComponent(message)}`);
   }
 
   try {
     await upsertProfile(supabase, user.id, parsed.data);
   } catch {
-    return context.redirect(`/profile?error=${encodeURIComponent("Nie udało się zapisać profilu")}`);
+    return context.redirect(`/profile?error=${encodeURIComponent("Could not save your profile. Please try again.")}`);
   }
 
   return context.redirect("/profile?saved=1");
