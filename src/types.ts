@@ -115,3 +115,37 @@ export interface UpsertBiomarkerReadingCommand {
   ketones_mmol_l: number;
   glucose_mg_dl: number;
 }
+
+// --- Physical activity (S-04) ----------------------------------------------
+
+/**
+ * A persisted activity row (shape returned by the Supabase client for
+ * public.activities). Field names mirror the DB columns so values map straight
+ * through with no snake/camel translation layer.
+ */
+export interface Activity {
+  id: string;
+  user_id: string;
+  description: string;
+  /** Estimated caloric expenditure (kcal) from the LLM; non-negative, always present. */
+  calories_kcal: number;
+  /** Local calendar date the activity counts toward, ISO `YYYY-MM-DD`. */
+  day: string;
+  /** Server insert timestamp, ISO 8601. */
+  logged_at: string;
+}
+
+/**
+ * Request body for creating an activity: raw text + the browser's local date.
+ * No `calories_kcal` — the server estimates it from the description.
+ */
+export interface CreateActivityCommand {
+  description: string;
+  /** The client's local calendar date, ISO `YYYY-MM-DD`. */
+  day: string;
+}
+
+/** Aggregated caloric expenditure for a single day. */
+export interface DailyExpenditureTotal {
+  calories_kcal: number;
+}
