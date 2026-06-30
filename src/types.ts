@@ -77,3 +77,75 @@ export interface UpdateHealthProfileCommand {
   activity_level: ActivityLevel | null;
   health_goals: string | null;
 }
+
+// --- Biomarker readings (S-03) ---------------------------------------------
+
+/**
+ * A persisted biomarker reading (shape returned by the Supabase client for
+ * public.biomarker_readings). A singleton per (user, day): re-logging the same
+ * day upserts the row. Field names mirror the DB columns. `gki` is computed
+ * server-side as (glucose_mg_dl / 18) / ketones_mmol_l and stored — never
+ * user-entered. All numeric fields are non-null (both inputs are required).
+ */
+export interface BiomarkerReading {
+  id: string;
+  user_id: string;
+  /** Local calendar date the reading counts toward, ISO `YYYY-MM-DD`. */
+  day: string;
+  /** Blood ketones in mmol/L (fixed unit). Strictly positive. */
+  ketones_mmol_l: number;
+  /** Blood glucose in mg/dL (fixed unit). */
+  glucose_mg_dl: number;
+  /** Glycemic-ketone index, computed server-side and stored. */
+  gki: number;
+  /** Row insert timestamp, ISO 8601. */
+  created_at: string;
+  /** Row last-update timestamp, ISO 8601. */
+  updated_at: string;
+}
+
+/**
+ * The validated upsert payload for a biomarker reading. Both inputs are
+ * required; `gki` is NOT part of the request — the server computes it from
+ * these two values before storing.
+ */
+export interface UpsertBiomarkerReadingCommand {
+  /** The client's local calendar date, ISO `YYYY-MM-DD`. */
+  day: string;
+  ketones_mmol_l: number;
+  glucose_mg_dl: number;
+}
+
+// --- Physical activity (S-04) ----------------------------------------------
+
+/**
+ * A persisted activity row (shape returned by the Supabase client for
+ * public.activities). Field names mirror the DB columns so values map straight
+ * through with no snake/camel translation layer.
+ */
+export interface Activity {
+  id: string;
+  user_id: string;
+  description: string;
+  /** Estimated caloric expenditure (kcal) from the LLM; non-negative, always present. */
+  calories_kcal: number;
+  /** Local calendar date the activity counts toward, ISO `YYYY-MM-DD`. */
+  day: string;
+  /** Server insert timestamp, ISO 8601. */
+  logged_at: string;
+}
+
+/**
+ * Request body for creating an activity: raw text + the browser's local date.
+ * No `calories_kcal` — the server estimates it from the description.
+ */
+export interface CreateActivityCommand {
+  description: string;
+  /** The client's local calendar date, ISO `YYYY-MM-DD`. */
+  day: string;
+}
+
+/** Aggregated caloric expenditure for a single day. */
+export interface DailyExpenditureTotal {
+  calories_kcal: number;
+}
