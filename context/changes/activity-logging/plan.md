@@ -443,8 +443,8 @@ spacing/dividers — presentational only, no behavior change. No middleware chan
 
 #### Automated
 
-- [x] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [x] 2.2 Build succeeds: `npm run build`
+- [x] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint` — f0715d3
+- [x] 2.2 Build succeeds: `npm run build` — f0715d3
 
 #### Manual
 
@@ -459,8 +459,8 @@ spacing/dividers — presentational only, no behavior change. No middleware chan
 
 #### Automated
 
-- [ ] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [ ] 3.2 Build succeeds: `npm run build`
+- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 3.2 Build succeeds: `npm run build`
 
 #### Manual
 
