@@ -3,7 +3,7 @@ project: KetoAI
 version: 1
 status: draft
 created: 2026-06-02
-updated: 2026-06-02
+updated: 2026-06-30
 prd_version: 1
 main_goal: speed
 top_blocker: skills
@@ -32,8 +32,8 @@ KetoAI aggregates a keto practitioner's daily meals, physical activity, and biom
 | F-01  | data-isolation-baseline    | (foundation) per-user RLS isolation + migration workflow proven   | —                      | NFR (privacy), AC     | ready    |
 | S-01  | meal-macro-logging         | log a meal in text and see today's auto-parsed macro total        | F-01                   | FR-004, FR-008, US-01 | done     |
 | S-02  | health-profile             | create and edit their health profile (account already in place)   | F-01                   | FR-001, FR-002, FR-003, US-01 | done     |
-| S-03  | biomarker-gki-logging      | log ketones + glucose and see GKI computed automatically          | F-01                   | FR-006, US-01         | proposed |
-| S-04  | activity-logging           | log physical activity with an estimated caloric expenditure       | F-01                   | FR-005                | proposed |
+| S-03  | biomarker-gki-logging      | log ketones + glucose and see GKI computed automatically          | F-01                   | FR-006, US-01         | done     |
+| S-04  | activity-logging           | log physical activity with an estimated caloric expenditure       | F-01                   | FR-005                | done     |
 | S-05  | wellness-logging           | log mood, energy, sleep, water, and freeform notes for the day    | F-01                   | FR-007                | proposed |
 | S-06  | biomarker-trend-dashboard  | see GKI / ketone / glucose trend charts over time                 | S-03                   | FR-009, US-01         | proposed |
 | S-07  | diet-activity-correlation  | see biomarker trends visualized against diet and activity data    | S-06, S-01, S-04       | FR-010                | proposed |
@@ -117,7 +117,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Low. GKI = (glucose ÷ 18) ÷ ketones is deterministic and computed server-side on save; units are fixed so there's no unit-selection ambiguity. This slice produces the time-series that S-06 charts.
-- **Status:** proposed
+- **Status:** done
 
 ### S-04: Physical activity logging
 
@@ -129,7 +129,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Low. Estimates are explicitly labeled approximate (PRD-accepted tradeoff); trend visibility ("did I move today?") matters more than exact calories. Reuses the AI request boundary established and de-risked in S-01.
-- **Status:** proposed
+- **Status:** done
 
 ### S-05: Daily wellness parameters logging
 
