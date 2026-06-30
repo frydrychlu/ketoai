@@ -457,8 +457,8 @@ already protected).
 
 #### Automated
 
-- [x] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [x] 2.2 Build succeeds: `npm run build`
+- [x] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint` — 98eb196
+- [x] 2.2 Build succeeds: `npm run build` — 98eb196
 
 #### Manual
 
