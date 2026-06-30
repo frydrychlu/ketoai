@@ -443,8 +443,8 @@ change; no middleware change (`/dashboard` already protected).
 
 #### Automated
 
-- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [x] 3.2 Build succeeds: `npm run build`
+- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint` — 995a890
+- [x] 3.2 Build succeeds: `npm run build` — 995a890
 
 #### Manual
 
