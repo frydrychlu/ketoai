@@ -77,3 +77,41 @@ export interface UpdateHealthProfileCommand {
   activity_level: ActivityLevel | null;
   health_goals: string | null;
 }
+
+// --- Biomarker readings (S-03) ---------------------------------------------
+
+/**
+ * A persisted biomarker reading (shape returned by the Supabase client for
+ * public.biomarker_readings). A singleton per (user, day): re-logging the same
+ * day upserts the row. Field names mirror the DB columns. `gki` is computed
+ * server-side as (glucose_mg_dl / 18) / ketones_mmol_l and stored — never
+ * user-entered. All numeric fields are non-null (both inputs are required).
+ */
+export interface BiomarkerReading {
+  id: string;
+  user_id: string;
+  /** Local calendar date the reading counts toward, ISO `YYYY-MM-DD`. */
+  day: string;
+  /** Blood ketones in mmol/L (fixed unit). Strictly positive. */
+  ketones_mmol_l: number;
+  /** Blood glucose in mg/dL (fixed unit). */
+  glucose_mg_dl: number;
+  /** Glycemic-ketone index, computed server-side and stored. */
+  gki: number;
+  /** Row insert timestamp, ISO 8601. */
+  created_at: string;
+  /** Row last-update timestamp, ISO 8601. */
+  updated_at: string;
+}
+
+/**
+ * The validated upsert payload for a biomarker reading. Both inputs are
+ * required; `gki` is NOT part of the request — the server computes it from
+ * these two values before storing.
+ */
+export interface UpsertBiomarkerReadingCommand {
+  /** The client's local calendar date, ISO `YYYY-MM-DD`. */
+  day: string;
+  ketones_mmol_l: number;
+  glucose_mg_dl: number;
+}

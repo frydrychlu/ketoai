@@ -415,7 +415,7 @@ change; no middleware change (`/dashboard` already protected).
 - [ ] 1.1 Migration applies cleanly locally: `npx supabase db reset` runs without error
 - [ ] 1.2 Table + 4 policies exist (psql pg_policy query returns 4 rows)
 - [ ] 1.3 `unique (user_id, day)` constraint exists (`\d public.biomarker_readings`)
-- [ ] 1.4 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 1.4 Typecheck/lint pass: `npx astro sync && npm run lint`
 
 #### Manual
 
