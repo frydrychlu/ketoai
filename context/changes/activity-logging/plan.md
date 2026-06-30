@@ -459,8 +459,8 @@ spacing/dividers — presentational only, no behavior change. No middleware chan
 
 #### Automated
 
-- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [x] 3.2 Build succeeds: `npm run build`
+- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint` — bb800d1
+- [x] 3.2 Build succeeds: `npm run build` — bb800d1
 
 #### Manual
 
