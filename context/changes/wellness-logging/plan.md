@@ -442,23 +442,23 @@ already protected).
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly locally: `npx supabase db reset` runs without error
-- [x] 1.2 Table + 4 policies exist (psql pg_policy query returns 4 rows)
-- [x] 1.3 `unique (user_id, day)` constraint exists (`\d public.wellness_entries`)
-- [x] 1.4 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 1.1 Migration applies cleanly locally: `npx supabase db reset` runs without error — 68b0a06
+- [x] 1.2 Table + 4 policies exist (psql pg_policy query returns 4 rows) — 68b0a06
+- [x] 1.3 `unique (user_id, day)` constraint exists (`\d public.wellness_entries`) — 68b0a06
+- [x] 1.4 Typecheck/lint pass: `npx astro sync && npm run lint` — 68b0a06
 
 #### Manual
 
-- [x] 1.5 `wellness_entries_rls.sql` proof passes; user B sees only its own row
-- [x] 1.6 CHECK rejects out-of-range (mood 11 / negative water); all-NULL insert accepted
-- [x] 1.7 `src/types.ts` wellness types match the migration columns
+- [x] 1.5 `wellness_entries_rls.sql` proof passes; user B sees only its own row — 68b0a06
+- [x] 1.6 CHECK rejects out-of-range (mood 11 / negative water); all-NULL insert accepted — 68b0a06
+- [x] 1.7 `src/types.ts` wellness types match the migration columns — 68b0a06
 
 ### Phase 2: Wellness service + JSON API route
 
 #### Automated
 
-- [ ] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [ ] 2.2 Build succeeds: `npm run build`
+- [x] 2.1 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 2.2 Build succeeds: `npm run build`
 
 #### Manual
 
@@ -474,8 +474,8 @@ already protected).
 
 #### Automated
 
-- [ ] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [ ] 3.2 Build succeeds: `npm run build`
+- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
+- [x] 3.2 Build succeeds: `npm run build`
 
 #### Manual
 
