@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import MealLogger from "@/components/meals/MealLogger";
 import ActivityLogger from "@/components/activities/ActivityLogger";
 import BiomarkerLogger from "@/components/biomarkers/BiomarkerLogger";
+import WellnessLogger from "@/components/wellness/WellnessLogger";
 
 const { user } = Astro.locals;
 ---
@@ -42,6 +43,10 @@ const { user } = Astro.locals;
         <div class="mt-8 border-t border-white/10 pt-6">
           <h2 class="mb-4 text-sm font-semibold tracking-wide text-blue-100/70 uppercase">Biomarkers</h2>
           <BiomarkerLogger client:load />
+        </div>
+        <div class="mt-8 border-t border-white/10 pt-6">
+          <h2 class="mb-4 text-sm font-semibold tracking-wide text-blue-100/70 uppercase">Wellness</h2>
+          <WellnessLogger client:load />
         </div>
       </div>
     </div>

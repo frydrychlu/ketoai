@@ -149,3 +149,50 @@ export interface CreateActivityCommand {
 export interface DailyExpenditureTotal {
   calories_kcal: number;
 }
+
+// --- Daily wellness parameters (S-05) --------------------------------------
+
+/**
+ * A persisted wellness entry (shape returned by the Supabase client for
+ * public.wellness_entries). A singleton per (user, day): re-logging the same
+ * day upserts the row. Every wellness field is nullable — the user may save any
+ * subset (partial save), mirroring the health-profile convention. Field names
+ * mirror the DB columns.
+ */
+export interface WellnessEntry {
+  id: string;
+  user_id: string;
+  /** Local calendar date the entry counts toward, ISO `YYYY-MM-DD`. */
+  day: string;
+  /** Subjective mood self-rating, integer 1–10. */
+  mood: number | null;
+  /** Subjective energy self-rating, integer 1–10. */
+  energy: number | null;
+  /** Subjective sleep-quality self-rating, integer 1–10. */
+  sleep_quality: number | null;
+  /** Water intake in liters. */
+  water_liters: number | null;
+  /** Freeform notes for the day. */
+  notes: string | null;
+  /** Row insert timestamp, ISO 8601. */
+  created_at: string;
+  /** Row last-update timestamp, ISO 8601. */
+  updated_at: string;
+}
+
+/**
+ * The validated upsert payload for a wellness entry. Every wellness field is
+ * nullable: a cleared field is sent as explicit `null` so the upsert NULLs that
+ * column on the conflict-UPDATE path (never `undefined`, which PostgREST would
+ * skip). The route's Zod schema additionally requires at least one field to be
+ * non-null — a fully-empty body is rejected.
+ */
+export interface UpsertWellnessEntryCommand {
+  /** The client's local calendar date, ISO `YYYY-MM-DD`. */
+  day: string;
+  mood: number | null;
+  energy: number | null;
+  sleep_quality: number | null;
+  water_liters: number | null;
+  notes: string | null;
+}

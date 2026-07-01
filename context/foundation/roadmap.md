@@ -3,7 +3,7 @@ project: KetoAI
 version: 1
 status: draft
 created: 2026-06-02
-updated: 2026-06-30
+updated: 2026-07-01
 prd_version: 1
 main_goal: speed
 top_blocker: skills
@@ -34,7 +34,7 @@ KetoAI aggregates a keto practitioner's daily meals, physical activity, and biom
 | S-02  | health-profile             | create and edit their health profile (account already in place)   | F-01                   | FR-001, FR-002, FR-003, US-01 | done     |
 | S-03  | biomarker-gki-logging      | log ketones + glucose and see GKI computed automatically          | F-01                   | FR-006, US-01         | done     |
 | S-04  | activity-logging           | log physical activity with an estimated caloric expenditure       | F-01                   | FR-005                | done     |
-| S-05  | wellness-logging           | log mood, energy, sleep, water, and freeform notes for the day    | F-01                   | FR-007                | proposed |
+| S-05  | wellness-logging           | log mood, energy, sleep, water, and freeform notes for the day    | F-01                   | FR-007                | done     |
 | S-06  | biomarker-trend-dashboard  | see GKI / ketone / glucose trend charts over time                 | S-03                   | FR-009, US-01         | proposed |
 | S-07  | diet-activity-correlation  | see biomarker trends visualized against diet and activity data    | S-06, S-01, S-04       | FR-010                | proposed |
 | S-08  | past-day-readonly-view     | select a past date and view that day's log read-only              | S-01, S-03, S-04, S-05 | FR-011, US-02         | proposed |
@@ -141,7 +141,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Low. Straightforward per-day entry following the F-01 table pattern. The freeform notes field is the context the S-09 AI analysis can reference, so capturing it early increases later analysis quality.
-- **Status:** proposed
+- **Status:** done
 
 ### S-06: Biomarker trend dashboard
 
