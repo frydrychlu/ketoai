@@ -3,7 +3,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase";
-import { getReading, upsertReading, deleteReading } from "@/lib/services/biomarkers";
+import { getReading, listReadings, upsertReading, deleteReading } from "@/lib/services/biomarkers";
 
 // The browser's local calendar date, ISO YYYY-MM-DD. The refine rejects
 // structurally-valid but non-existent dates (e.g. 2026-13-45, 2026-02-30)
@@ -26,8 +26,16 @@ const upsertBiomarkerSchema = z.object({
   glucose_mg_dl: z.number().int().min(20).max(600),
 });
 
-// GET /api/biomarkers?day=YYYY-MM-DD — the day's reading for the current user,
-// or null. The dashboard island calls this on mount with the browser's local date.
+// The widest range the trends dashboard ever needs is 30 days; cap the span
+// well above that (a year) so a hand-typed request can't trigger an unbounded
+// scan, while never rejecting a legitimate window.
+const MAX_RANGE_DAYS = 366;
+
+// GET /api/biomarkers
+//   ?from=YYYY-MM-DD&to=YYYY-MM-DD — the current user's readings across the
+//     inclusive range, ordered by day (the trends dashboard calls this).
+//   ?day=YYYY-MM-DD — the single day's reading, or null (the dashboard logger).
+// The range branch takes precedence when both `from` and `to` are present.
 export const GET: APIRoute = async (context) => {
   const user = context.locals.user;
   if (!user) {
@@ -39,7 +47,37 @@ export const GET: APIRoute = async (context) => {
     return Response.json({ error: "Supabase is not configured" }, { status: 500 });
   }
 
-  const parsed = daySchema.safeParse(new URL(context.request.url).searchParams.get("day"));
+  const params = new URL(context.request.url).searchParams;
+  const fromParam = params.get("from");
+  const toParam = params.get("to");
+
+  // Range branch: both `from` and `to` must be valid dates with from <= to and
+  // a span within the cap.
+  if (fromParam !== null || toParam !== null) {
+    const from = daySchema.safeParse(fromParam);
+    const to = daySchema.safeParse(toParam);
+    if (!from.success || !to.success) {
+      return Response.json({ error: "Invalid range" }, { status: 400 });
+    }
+    // ISO YYYY-MM-DD compares lexicographically the same as chronologically.
+    if (from.data > to.data) {
+      return Response.json({ error: "Invalid range" }, { status: 400 });
+    }
+    const spanDays = (Date.parse(`${to.data}T00:00:00Z`) - Date.parse(`${from.data}T00:00:00Z`)) / 86_400_000;
+    if (spanDays > MAX_RANGE_DAYS) {
+      return Response.json({ error: "Range too wide" }, { status: 400 });
+    }
+
+    try {
+      const readings = await listReadings(supabase, from.data, to.data);
+      return Response.json({ readings });
+    } catch {
+      return Response.json({ error: "Could not load readings" }, { status: 500 });
+    }
+  }
+
+  // Single-day branch (unchanged).
+  const parsed = daySchema.safeParse(params.get("day"));
   if (!parsed.success) {
     return Response.json({ error: "Invalid day" }, { status: 400 });
   }

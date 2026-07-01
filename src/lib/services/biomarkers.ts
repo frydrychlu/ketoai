@@ -35,6 +35,30 @@ export async function getReading(supabase: SupabaseClient, day: string): Promise
 }
 
 /**
+ * Read all of the current user's readings within an inclusive `[from, to]`
+ * calendar-date range, ordered by day ascending — the time-series the trend
+ * dashboard charts. RLS scopes the query to the logged-in user, so no explicit
+ * user_id filter is needed (mirrors `getReading`). Returns `[]` when the window
+ * holds no readings. `from`/`to` are ISO `YYYY-MM-DD`; the caller guarantees
+ * `from <= to`.
+ */
+export async function listReadings(supabase: SupabaseClient, from: string, to: string): Promise<BiomarkerReading[]> {
+  const { data, error } = await supabase
+    .from("biomarker_readings")
+    .select("*")
+    .gte("day", from)
+    .lte("day", to)
+    .order("day", { ascending: true })
+    .overrideTypes<BiomarkerReading[], { merge: false }>();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+/**
  * Insert-or-update the current user's singleton reading for a day, keyed on the
  * `unique (user_id, day)` constraint. The GKI is computed here from the inputs
  * and stored — never user-supplied.
