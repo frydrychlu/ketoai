@@ -385,28 +385,28 @@ None — no schema change. Reads the existing `biomarker_readings` table and its
 
 #### Automated
 
-- [x] 2.1 Type checking passes
-- [x] 2.2 Linting passes
+- [x] 2.1 Type checking passes — 7ed06a4
+- [x] 2.2 Linting passes — 7ed06a4
 
 #### Manual
 
-- [x] 2.3 `/trends` redirects to signin when signed out; renders when signed in
-- [x] 2.4 Dashboard "Trends" link and trends "Dashboard" back link both work
-- [x] 2.5 Zero-reading window shows the guided empty state with a dashboard link
-- [x] 2.6 7/14/30 toggle changes selection and re-fetches; default is 30
+- [x] 2.3 `/trends` redirects to signin when signed out; renders when signed in — 7ed06a4
+- [x] 2.4 Dashboard "Trends" link and trends "Dashboard" back link both work — 7ed06a4
+- [x] 2.5 Zero-reading window shows the guided empty state with a dashboard link — 7ed06a4
+- [x] 2.6 7/14/30 toggle changes selection and re-fetches; default is 30 — 7ed06a4
 
 ### Phase 3: Hand-rolled SVG charts
 
 #### Automated
 
-- [ ] 3.1 Type checking passes
-- [ ] 3.2 Linting passes
-- [ ] 3.3 Build passes with no new charting dependency in `package.json`
+- [x] 3.1 Type checking passes
+- [x] 3.2 Linting passes
+- [x] 3.3 Build passes with no new charting dependency in `package.json`
 
 #### Manual
 
-- [ ] 3.4 GKI hero chart draws connected line + dots + ketosis bands; values correct
-- [ ] 3.5 Ketones/glucose chart shows two correctly-scaled lines with labeled axes + legend
-- [ ] 3.6 Skipped day → continuous line across the gap, dots only on real readings
-- [ ] 3.7 Single-reading window renders a lone dot with no NaN/divide-by-zero
-- [ ] 3.8 7/14/30 toggle redraws all charts; empty state returns for a no-data window
+- [x] 3.4 GKI hero chart draws connected line + dots + ketosis bands; values correct
+- [x] 3.5 Ketones/glucose chart shows two correctly-scaled lines with labeled axes + legend
+- [x] 3.6 Skipped day → continuous line across the gap, dots only on real readings
+- [x] 3.7 Single-reading window renders a lone dot with no NaN/divide-by-zero
+- [x] 3.8 7/14/30 toggle redraws all charts; empty state returns for a no-data window
