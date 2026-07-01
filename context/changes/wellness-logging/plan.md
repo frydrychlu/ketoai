@@ -462,27 +462,27 @@ already protected).
 
 #### Manual
 
-- [ ] 2.3 Partial POST (subset of fields) returns an entry with the rest `null` and `201`; row in Studio
-- [ ] 2.4 Second POST for the same day updates the same row; a `null` field clears that column
-- [ ] 2.5 GET returns the day's entry, or `{ entry: null }` when none exists
-- [ ] 2.6 POST with an out-of-range value returns `400`, persists nothing
-- [ ] 2.7 POST with all fields null/absent returns `400` (at-least-one guard), persists nothing
-- [ ] 2.8 DELETE removes the row (`200`); second DELETE for the same day returns `404`
-- [ ] 2.9 Unauthenticated GET/POST/DELETE rejected with `401`
+- [x] 2.3 Partial POST (subset of fields) returns an entry with the rest `null` and `201`; row in Studio
+- [x] 2.4 Second POST for the same day updates the same row; a `null` field clears that column
+- [x] 2.5 GET returns the day's entry, or `{ entry: null }` when none exists
+- [x] 2.6 POST with an out-of-range value returns `400`, persists nothing
+- [x] 2.7 POST with all fields null/absent returns `400` (at-least-one guard), persists nothing
+- [x] 2.8 DELETE removes the row (`200`); second DELETE for the same day returns `404`
+- [x] 2.9 Unauthenticated GET/POST/DELETE rejected with `401`
 
 ### Phase 3: UI — WellnessLogger dashboard island
 
 #### Automated
 
-- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint`
-- [x] 3.2 Build succeeds: `npm run build`
+- [x] 3.1 Typecheck/lint pass: `npx astro sync && npm run lint` — 360812c
+- [x] 3.2 Build succeeds: `npm run build` — 360812c
 
 #### Manual
 
-- [ ] 3.3 Empty Wellness section on a day with no entry
-- [ ] 3.4 Partial save (subset of fields) shows values in place without a full reload; row in Studio
-- [ ] 3.5 Re-save updates the readout, keeps a single row, clears a blanked field to `null`
-- [ ] 3.6 Clear/delete removes the entry, returns to empty state
-- [ ] 3.7 Out-of-range value, or all-blank submit, shows inline error and persists nothing
-- [ ] 3.8 Reloading `/dashboard` re-fetches and shows today's saved entry
-- [ ] 3.9 Logged-out `/dashboard` redirects to signin; second user sees empty section; no regressions
+- [x] 3.3 Empty Wellness section on a day with no entry
+- [x] 3.4 Partial save (subset of fields) shows values in place without a full reload; row in Studio
+- [x] 3.5 Re-save updates the readout, keeps a single row, clears a blanked field to `null`
+- [x] 3.6 Clear/delete removes the entry, returns to empty state
+- [x] 3.7 Out-of-range value, or all-blank submit, shows inline error and persists nothing
+- [x] 3.8 Reloading `/dashboard` re-fetches and shows today's saved entry
+- [x] 3.9 Logged-out `/dashboard` redirects to signin; second user sees empty section; no regressions
