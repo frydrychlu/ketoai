@@ -399,14 +399,14 @@ None — no schema change. Reads the existing `biomarker_readings` table and its
 
 #### Automated
 
-- [x] 3.1 Type checking passes
-- [x] 3.2 Linting passes
-- [x] 3.3 Build passes with no new charting dependency in `package.json`
+- [x] 3.1 Type checking passes — 8a1ade6
+- [x] 3.2 Linting passes — 8a1ade6
+- [x] 3.3 Build passes with no new charting dependency in `package.json` — 8a1ade6
 
 #### Manual
 
-- [x] 3.4 GKI hero chart draws connected line + dots + ketosis bands; values correct
-- [x] 3.5 Ketones/glucose chart shows two correctly-scaled lines with labeled axes + legend
-- [x] 3.6 Skipped day → continuous line across the gap, dots only on real readings
-- [x] 3.7 Single-reading window renders a lone dot with no NaN/divide-by-zero
-- [x] 3.8 7/14/30 toggle redraws all charts; empty state returns for a no-data window
+- [x] 3.4 GKI hero chart draws connected line + dots + ketosis bands; values correct — 8a1ade6
+- [x] 3.5 Ketones/glucose chart shows two correctly-scaled lines with labeled axes + legend — 8a1ade6
+- [x] 3.6 Skipped day → continuous line across the gap, dots only on real readings — 8a1ade6
+- [x] 3.7 Single-reading window renders a lone dot with no NaN/divide-by-zero — 8a1ade6
+- [x] 3.8 7/14/30 toggle redraws all charts; empty state returns for a no-data window — 8a1ade6

@@ -1,7 +1,7 @@
 ---
 change_id: biomarker-trend-dashboard
 title: Biomarker trend dashboard
-status: implementing
+status: implemented
 created: 2026-07-01
 updated: 2026-07-01
 archived_at: null
