@@ -1,0 +1,30 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import BiomarkerTrends from "@/components/biomarkers/BiomarkerTrends";
+
+const { user } = Astro.locals;
+---
+
+<Layout title="Trends">
+  <div class="bg-cosmic min-h-screen p-4">
+    <div class="mx-auto max-w-2xl">
+      <header class="mb-6 flex items-center justify-between">
+        <div>
+          <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
+            Trends
+          </h1>
+          <p class="text-sm text-blue-100/60">{user?.email}</p>
+        </div>
+        <a
+          href="/dashboard"
+          class="rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white transition-colors hover:bg-white/20"
+        >
+          Back to dashboard
+        </a>
+      </header>
+      <div class="rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
+        <BiomarkerTrends client:load />
+      </div>
+    </div>
+  </div>
+</Layout>

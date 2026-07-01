@@ -371,29 +371,29 @@ None — no schema change. Reads the existing `biomarker_readings` table and its
 
 #### Automated
 
-- [x] 1.1 Type checking passes
-- [x] 1.2 Linting passes
-- [x] 1.3 Build passes
+- [x] 1.1 Type checking passes — 57813a2
+- [x] 1.2 Linting passes — 57813a2
+- [x] 1.3 Build passes — 57813a2
 
 #### Manual
 
-- [x] 1.4 Range GET returns `{ readings }` ordered by day; `[]` for empty range
-- [x] 1.5 Single-day GET (`?day=`) still returns `{ reading }` unchanged
-- [x] 1.6 Invalid params return 400; unauthenticated returns 401
+- [x] 1.4 Range GET returns `{ readings }` ordered by day; `[]` for empty range — 57813a2
+- [x] 1.5 Single-day GET (`?day=`) still returns `{ reading }` unchanged — 57813a2
+- [x] 1.6 Invalid params return 400; unauthenticated returns 401 — 57813a2
 
 ### Phase 2: `/trends` page, route protection & navigation
 
 #### Automated
 
-- [ ] 2.1 Type checking passes
-- [ ] 2.2 Linting passes
+- [x] 2.1 Type checking passes
+- [x] 2.2 Linting passes
 
 #### Manual
 
-- [ ] 2.3 `/trends` redirects to signin when signed out; renders when signed in
-- [ ] 2.4 Dashboard "Trends" link and trends "Dashboard" back link both work
-- [ ] 2.5 Zero-reading window shows the guided empty state with a dashboard link
-- [ ] 2.6 7/14/30 toggle changes selection and re-fetches; default is 30
+- [x] 2.3 `/trends` redirects to signin when signed out; renders when signed in
+- [x] 2.4 Dashboard "Trends" link and trends "Dashboard" back link both work
+- [x] 2.5 Zero-reading window shows the guided empty state with a dashboard link
+- [x] 2.6 7/14/30 toggle changes selection and re-fetches; default is 30
 
 ### Phase 3: Hand-rolled SVG charts
 
