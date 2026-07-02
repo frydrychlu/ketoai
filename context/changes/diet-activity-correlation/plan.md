@@ -393,23 +393,23 @@ RLS unchanged.
 
 #### Automated
 
-- [x] 1.1 Type checking passes
-- [x] 1.2 Linting passes
+- [x] 1.1 Type checking passes — 2f97489
+- [x] 1.2 Linting passes — 2f97489
 
 #### Manual
 
-- [x] 1.3 `GET /api/meals?from=&to=` returns aggregated `{ dailyTotals }` ordered by day; `[]` for empty range
-- [x] 1.4 `GET /api/activities?from=&to=` returns aggregated `{ dailyExpenditures }` similarly
-- [x] 1.5 Single-day (`?day=`) meals and activities responses are unchanged
-- [x] 1.6 Invalid range params return 400; unauthenticated returns 401
+- [x] 1.3 `GET /api/meals?from=&to=` returns aggregated `{ dailyTotals }` ordered by day; `[]` for empty range — 2f97489
+- [x] 1.4 `GET /api/activities?from=&to=` returns aggregated `{ dailyExpenditures }` similarly — 2f97489
+- [x] 1.5 Single-day (`?day=`) meals and activities responses are unchanged — 2f97489
+- [x] 1.6 Invalid range params return 400; unauthenticated returns 401 — 2f97489
 
 ### Phase 2: `BarChart` SVG primitive
 
 #### Automated
 
-- [ ] 2.1 Type checking passes
-- [ ] 2.2 Linting passes
-- [ ] 2.3 Build produces the Worker bundle with no new dependency in `package.json`
+- [x] 2.1 Type checking passes
+- [x] 2.2 Linting passes
+- [x] 2.3 Build produces the Worker bundle with no new dependency in `package.json`
 
 #### Manual
 
