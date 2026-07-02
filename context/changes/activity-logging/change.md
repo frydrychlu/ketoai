@@ -1,9 +1,9 @@
 ---
 change_id: activity-logging
 title: Physical activity logging with estimated calories
-status: planned
+status: impl_reviewed
 created: 2026-06-30
-updated: 2026-06-30
+updated: 2026-07-02
 archived_at: null
 ---
 

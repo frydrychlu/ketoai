@@ -1,9 +1,9 @@
 ---
 change_id: biomarker-gki-logging
 title: Biomarker logging with automatic GKI
-status: planned
+status: impl_reviewed
 created: 2026-06-30
-updated: 2026-06-30
+updated: 2026-07-02
 archived_at: null
 ---
 

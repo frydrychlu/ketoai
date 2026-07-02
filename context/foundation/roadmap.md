@@ -225,4 +225,4 @@ None. The PRD resolved all its Open Questions ("None — all questions resolved"
 
 ## Done
 
-(Empty on first generation. `/10x-archive` appends here — and flips that item's `Status` to `done` — when a change whose `Change ID` matches the item is archived. Do NOT pre-populate.)
+- **S-06: user can see GKI, ketone, and glucose trend charts over time, with an empty state that guides them when data is sparse.** — Archived 2026-07-02 → `context/archive/2026-07-01-biomarker-trend-dashboard/`. Lesson: —.
