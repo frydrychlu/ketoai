@@ -1,10 +1,10 @@
 ---
 change_id: diet-activity-correlation
 title: Diet & activity correlation visualizations
-status: impl_reviewed
+status: archived
 created: 2026-07-02
 updated: 2026-07-02
-archived_at: null
+archived_at: 2026-07-02T12:02:29Z
 ---
 
 ## Notes
