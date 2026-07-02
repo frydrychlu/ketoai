@@ -413,22 +413,22 @@ RLS unchanged.
 
 #### Manual
 
-- [x] 2.4 Stacked day shows fat/protein/carbs segments summing to the day total; single-series day shows one bar
-- [x] 2.5 Bars sit at the same x-position as the same date on a `LineChart` (column alignment holds at 7 and 30 days)
-- [x] 2.6 A window with gaps shows bars only on days present in the series (no phantom zero bars)
+- [x] 2.4 Stacked day shows fat/protein/carbs segments summing to the day total; single-series day shows one bar — 6e530ba
+- [x] 2.5 Bars sit at the same x-position as the same date on a `LineChart` (column alignment holds at 7 and 30 days) — 6e530ba
+- [x] 2.6 A window with gaps shows bars only on days present in the series (no phantom zero bars) — 6e530ba
 
 ### Phase 3: Correlation charts in the trends island
 
 #### Automated
 
-- [x] 3.1 Type checking passes
-- [x] 3.2 Linting passes
-- [x] 3.3 Build passes with no new charting dependency in `package.json`
+- [x] 3.1 Type checking passes — 6e530ba
+- [x] 3.2 Linting passes — 6e530ba
+- [x] 3.3 Build passes with no new charting dependency in `package.json` — 6e530ba
 
 #### Manual
 
-- [x] 3.4 With all three streams logged, GKI/ketones/glucose charts + macro bar chart + activity bar chart render, columns aligned
-- [x] 3.5 Biomarkers-only data shows per-chart empty states for diet and activity (page not blanked)
-- [x] 3.6 7/14/30 toggle re-fetches and redraws all charts; bars stay column-aligned with the lines
-- [x] 3.7 A skipped diet day shows a gap (no bar) while the GKI line spans it
-- [x] 3.8 Signed out redirects to `/auth/signin`; a second user sees only their own data
+- [x] 3.4 With all three streams logged, GKI/ketones/glucose charts + macro bar chart + activity bar chart render, columns aligned — 6e530ba
+- [x] 3.5 Biomarkers-only data shows per-chart empty states for diet and activity (page not blanked) — 6e530ba
+- [x] 3.6 7/14/30 toggle re-fetches and redraws all charts; bars stay column-aligned with the lines — 6e530ba
+- [x] 3.7 A skipped diet day shows a gap (no bar) while the GKI line spans it — 6e530ba
+- [x] 3.8 Signed out redirects to `/auth/signin`; a second user sees only their own data — 6e530ba
