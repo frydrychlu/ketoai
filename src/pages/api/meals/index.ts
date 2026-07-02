@@ -5,7 +5,7 @@ import { z } from "zod";
 import type { Meal } from "@/types";
 import { createClient } from "@/lib/supabase";
 import { parseMealToMacros, MacroParseError } from "@/lib/services/macros";
-import { getDailyTotal, sumDailyTotal } from "@/lib/services/meals";
+import { getDailyTotal, listDailyTotals, sumDailyTotal } from "@/lib/services/meals";
 
 // The browser's local calendar date, ISO YYYY-MM-DD. The refine rejects
 // structurally-valid but non-existent dates (e.g. 2026-13-45, 2026-02-30)
@@ -23,8 +23,16 @@ const createMealSchema = z.object({
   day: daySchema,
 });
 
-// GET /api/meals?day=YYYY-MM-DD — the day's meals + macro total for the current
-// user. The dashboard island calls this on mount with the browser's local date.
+// The trends dashboard never needs a window wider than 30 days; cap the span
+// well above that (a year) so a hand-typed request can't trigger an unbounded
+// scan, while never rejecting a legitimate window. Mirrors the biomarkers route.
+const MAX_RANGE_DAYS = 366;
+
+// GET /api/meals
+//   ?from=YYYY-MM-DD&to=YYYY-MM-DD — the current user's per-day macro totals
+//     across the inclusive range, ordered by day (the trends dashboard calls this).
+//   ?day=YYYY-MM-DD — the day's meals + macro total (the dashboard logger).
+// The range branch takes precedence when both `from` and `to` are present.
 export const GET: APIRoute = async (context) => {
   const user = context.locals.user;
   if (!user) {
@@ -36,7 +44,37 @@ export const GET: APIRoute = async (context) => {
     return Response.json({ error: "Supabase is not configured" }, { status: 500 });
   }
 
-  const parsed = daySchema.safeParse(new URL(context.request.url).searchParams.get("day"));
+  const params = new URL(context.request.url).searchParams;
+  const fromParam = params.get("from");
+  const toParam = params.get("to");
+
+  // Range branch: both `from` and `to` must be valid dates with from <= to and a
+  // span within the cap. Mirrors the biomarkers route's range branch.
+  if (fromParam !== null || toParam !== null) {
+    const from = daySchema.safeParse(fromParam);
+    const to = daySchema.safeParse(toParam);
+    if (!from.success || !to.success) {
+      return Response.json({ error: "Invalid range" }, { status: 400 });
+    }
+    // ISO YYYY-MM-DD compares lexicographically the same as chronologically.
+    if (from.data > to.data) {
+      return Response.json({ error: "Invalid range" }, { status: 400 });
+    }
+    const spanDays = (Date.parse(`${to.data}T00:00:00Z`) - Date.parse(`${from.data}T00:00:00Z`)) / 86_400_000;
+    if (spanDays > MAX_RANGE_DAYS) {
+      return Response.json({ error: "Range too wide" }, { status: 400 });
+    }
+
+    try {
+      const dailyTotals = await listDailyTotals(supabase, from.data, to.data);
+      return Response.json({ dailyTotals });
+    } catch {
+      return Response.json({ error: "Could not load meals" }, { status: 500 });
+    }
+  }
+
+  // Single-day branch (unchanged).
+  const parsed = daySchema.safeParse(params.get("day"));
   if (!parsed.success) {
     return Response.json({ error: "Invalid day" }, { status: 400 });
   }

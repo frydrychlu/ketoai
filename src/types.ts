@@ -34,6 +34,13 @@ export interface CreateMealCommand {
 /** Aggregated macro totals for a single day. */
 export type DailyMacroTotal = MacroBreakdown;
 
+/**
+ * One aggregated day in a diet range series: a `day` plus that day's macro
+ * total. Returned by the meals range read (`listDailyTotals`) and charted by the
+ * trends island. Only days that have meals appear — there are no zero rows.
+ */
+export type DailyMacroSeriesPoint = { day: string } & DailyMacroTotal;
+
 // --- Health profile (S-02) -------------------------------------------------
 
 /**
@@ -147,6 +154,17 @@ export interface CreateActivityCommand {
 
 /** Aggregated caloric expenditure for a single day. */
 export interface DailyExpenditureTotal {
+  calories_kcal: number;
+}
+
+/**
+ * One aggregated day in an activity range series: a `day` plus that day's total
+ * estimated caloric expenditure. Returned by the activities range read
+ * (`listDailyExpenditure`) and charted by the trends island. Only days that have
+ * activities appear — there are no zero rows.
+ */
+export interface DailyExpenditureSeriesPoint {
+  day: string;
   calories_kcal: number;
 }
 
