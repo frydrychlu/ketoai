@@ -93,7 +93,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Unknowns:**
   - Does the AI macro-parsing request run within the Workers free-tier 10 ms CPU cap and the platform's `fetch`/streaming model? — Owner: user. Block: no (planning can proceed; this is a Week-1 spike inside the slice, per infra pre-mortem).
 - **Risk:** This is the north star and carries the riskiest technical unknown — the first LLM call from a Cloudflare Worker (CPU cap, `nodejs_compat`, streaming all flagged in `infrastructure.md`). Sequenced first on the `speed` bias so the hardest must-have path is proven before anything depends on it. Parsing errors are visible per meal entry (accepted PRD tradeoff).
-- **Status:** proposed
+- **Status:** done
 
 ### S-02: Health profile
 
@@ -105,7 +105,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Low. Registration and login (FR-001, FR-002) are already implemented per the present auth baseline — this slice adds the profile entity + edit UI and confirms the post-registration → profile flow that US-01 assumes ("a logged-in practitioner who has completed my health profile"). The profile also supplies the baseline context S-09's AI analysis needs.
-- **Status:** proposed
+- **Status:** done
 
 ### S-03: Biomarker logging with automatic GKI
 
@@ -226,3 +226,8 @@ None. The PRD resolved all its Open Questions ("None — all questions resolved"
 ## Done
 
 - **S-06: user can see GKI, ketone, and glucose trend charts over time, with an empty state that guides them when data is sparse.** — Archived 2026-07-02 → `context/archive/2026-07-01-biomarker-trend-dashboard/`. Lesson: —.
+- **S-01: user can log a meal by describing it in text and immediately see today's macro total (fat, protein, carbs, calories) update.** — Archived 2026-07-02 → `context/archive/2026-06-09-meal-macro-logging/`. Lesson: —.
+- **S-02: user can create and edit their health profile (age, weight, height, activity level, health goals).** — Archived 2026-07-02 → `context/archive/2026-06-16-health-profile/`. Lesson: —.
+- **S-03: user can log blood ketones (mmol/L) and blood glucose (mg/dL) and see GKI computed automatically.** — Archived 2026-07-02 → `context/archive/2026-06-30-biomarker-gki-logging/`. Lesson: —.
+- **S-04: user can log physical activity with a name/description and see an approximate caloric expenditure estimate.** — Archived 2026-07-02 → `context/archive/2026-06-30-activity-logging/`. Lesson: —.
+- **S-05: user can log mood, energy level, sleep quality, water intake, and freeform notes for the day.** — Archived 2026-07-02 → `context/archive/2026-06-30-wellness-logging/`. Lesson: —.
