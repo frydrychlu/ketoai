@@ -55,6 +55,8 @@ npm run dev
 - `npm run lint` - Run ESLint with type-checked rules
 - `npm run lint:fix` - Auto-fix ESLint issues
 - `npm run format` - Run Prettier
+- `npm run seed:trends` - Seed ~30 days of biomarker readings into the local DB to verify the `/trends` charts (see [Seeding trend test data](#seeding-trend-test-data))
+- `npm run clear:trends` - Delete that seeded biomarker data
 
 ## Project Structure
 
@@ -147,6 +149,32 @@ Users can then sign in immediately after sign-up without clicking a confirmation
 | `/dashboard`          | Example protected page (redirects to `/auth/signin` if unauthenticated) |
 
 Route protection is handled in `src/middleware.ts`. Add paths to the `PROTECTED_ROUTES` array there to require authentication.
+
+### Seeding trend test data
+
+To verify the biomarker trend charts at `/trends` you need some history to plot. Two npm scripts drive
+the local Postgres container directly (they run `psql` as the `postgres` superuser, so they **bypass RLS**
+to write on a user's behalf — local development only):
+
+```bash
+npm run seed:trends    # insert ~30 days of readings for one user
+npm run clear:trends   # delete that user's readings (charts return to the empty state)
+```
+
+Both target the **most recently created** account by default. Sign up once in the app (pointed at local)
+first so an `auth.users` row exists. The seed leaves one gap day and keeps readings in a realistic range
+(ketones 0.6–1.9 mmol/L, glucose 74–94 mg/dL), with `gki` computed via the app's `(glucose / 18) / ketones`
+formula. `seed:trends` is idempotent — it clears the user's prior readings before inserting.
+
+To target a specific account, run the SQL directly with a `seed_email` variable:
+
+```bash
+docker exec -i supabase_db_10x-astro-starter psql -U postgres -d postgres \
+  -v seed_email=you@example.com < supabase/seeds/biomarker_trends_seed.sql
+```
+
+> `clear:trends` deletes **all** of the target user's `biomarker_readings`, not only seeded rows — point it
+> only at a local/test account.
 
 ## Deployment
 
