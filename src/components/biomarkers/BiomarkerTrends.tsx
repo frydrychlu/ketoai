@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Loader2, LineChart as LineChartIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import LineChart, { type ChartBand } from "@/components/biomarkers/LineChart";
-import type { BiomarkerReading } from "@/types";
+import BarChart, { type BarDay } from "@/components/biomarkers/BarChart";
+import type { BiomarkerReading, DailyExpenditureSeriesPoint, DailyMacroSeriesPoint } from "@/types";
 
 /**
  * The browser's local calendar date as ISO YYYY-MM-DD.
@@ -39,6 +40,16 @@ const GKI_COLOR = "#a78bfa"; // violet — the hero metric
 const KETONES_COLOR = "#34d399"; // emerald — left axis
 const GLUCOSE_COLOR = "#fbbf24"; // amber — right axis
 
+// Diet stacked-macro colors. Carbs sits at the BOTTOM of the stack (drawn first)
+// so it reads as a slice along the baseline — the keto-relevant lever kept easy
+// to track against the GKI line above.
+const CARBS_COLOR = "#fb7185"; // rose — the keto lever, foregrounded
+const FAT_COLOR = "#f59e0b"; // amber
+const PROTEIN_COLOR = "#38bdf8"; // sky
+
+// Activity expenditure bars.
+const ACTIVITY_COLOR = "#22d3ee"; // cyan
+
 // Standard GKI ketosis zones as shaded background bands (guidance, not medical
 // advice). Bounds are in GKI units; LineChart clamps them to the chart domain.
 const GKI_BANDS: ChartBand[] = [
@@ -57,29 +68,75 @@ function LegendSwatch({ color, label }: { color: string; label: string }) {
   );
 }
 
+/**
+ * Per-chart empty state: shown when one stream has no data in the window while
+ * others still render (partial data is the common case). `cta` links to the
+ * dashboard where the user logs that stream.
+ */
+function ChartEmpty({ message }: { message: string }) {
+  return (
+    <div className="flex flex-col items-center gap-2 py-8 text-center">
+      <LineChartIcon className="size-6 text-blue-100/30" />
+      <p className="max-w-xs text-xs text-blue-100/60">{message}</p>
+    </div>
+  );
+}
+
+// A stream is "thin" (worth a keep-logging nudge) at 1–2 points.
+const SPARSE_THRESHOLD = 2;
+
+function SparseHint() {
+  return <p className="mt-1 text-xs text-blue-100/50">Loguj dalej, aby zobaczyć wyraźniejsze trendy.</p>;
+}
+
 export default function BiomarkerTrends() {
   const [range, setRange] = useState<Range>(DEFAULT_RANGE);
   const [readings, setReadings] = useState<BiomarkerReading[]>([]);
+  const [dailyTotals, setDailyTotals] = useState<DailyMacroSeriesPoint[]>([]);
+  const [dailyExpenditures, setDailyExpenditures] = useState<DailyExpenditureSeriesPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch the window on mount and whenever the range changes. The window is
-  // [today − (range − 1), today] so it holds exactly `range` calendar days.
+  // Fetch all three streams for the window on mount and whenever the range
+  // changes. The window is [today − (range − 1), today] so it holds exactly
+  // `range` calendar days. Biomarkers drive the page's loading/error; diet and
+  // activity are best-effort — a failure in either shows that chart's empty
+  // state rather than failing the whole page.
   useEffect(() => {
     const controller = new AbortController();
+    const opts = { signal: controller.signal };
     void (async () => {
       setLoading(true);
       setError(null);
+      // Clear the prior window's diet/activity so stale bars never linger under
+      // a new range while the fetch is in flight.
+      setDailyTotals([]);
+      setDailyExpenditures([]);
       try {
         const to = localDay();
         const from = daysBefore(to, range - 1);
-        const res = await fetch(`/api/biomarkers?from=${from}&to=${to}`, { signal: controller.signal });
-        if (!res.ok) {
+        const qs = `from=${from}&to=${to}`;
+        const [bioRes, dietRes, actRes] = await Promise.all([
+          fetch(`/api/biomarkers?${qs}`, opts),
+          fetch(`/api/meals?${qs}`, opts).catch(() => null),
+          fetch(`/api/activities?${qs}`, opts).catch(() => null),
+        ]);
+
+        if (!bioRes.ok) {
           setError("Nie udało się wczytać danych. Spróbuj ponownie.");
           return;
         }
-        const data = (await res.json()) as { readings: BiomarkerReading[] };
-        setReadings(data.readings);
+        const bio = (await bioRes.json()) as { readings: BiomarkerReading[] };
+        setReadings(bio.readings);
+
+        if (dietRes?.ok) {
+          const diet = (await dietRes.json()) as { dailyTotals: DailyMacroSeriesPoint[] };
+          setDailyTotals(diet.dailyTotals);
+        }
+        if (actRes?.ok) {
+          const act = (await actRes.json()) as { dailyExpenditures: DailyExpenditureSeriesPoint[] };
+          setDailyExpenditures(act.dailyExpenditures);
+        }
       } catch {
         // Aborted on unmount or range change, or a network error — the error
         // state (if not aborted) is handled above; leave prior data in place.
@@ -111,6 +168,25 @@ export default function BiomarkerTrends() {
       points: readings.map((r) => ({ day: r.day, value: r.glucose_mg_dl })),
     },
   ];
+
+  // Diet: one stacked bar per logged day (carbs at the baseline, then fat, then
+  // protein). Activity: one bar per logged day of estimated kcal burned.
+  const dietDays: BarDay[] = dailyTotals.map((d) => ({
+    day: d.day,
+    segments: [
+      { key: "carbs", value: d.carbs_g, color: CARBS_COLOR },
+      { key: "fat", value: d.fat_g, color: FAT_COLOR },
+      { key: "protein", value: d.protein_g, color: PROTEIN_COLOR },
+    ],
+  }));
+  const activityDays: BarDay[] = dailyExpenditures.map((d) => ({
+    day: d.day,
+    segments: [{ key: "kcal", value: d.calories_kcal, color: ACTIVITY_COLOR }],
+  }));
+
+  // All three streams empty → the guided all-empty fallback. Any data in any
+  // stream → render every section, each with its own per-chart empty state.
+  const allEmpty = readings.length === 0 && dailyTotals.length === 0 && dailyExpenditures.length === 0;
 
   return (
     <div className="space-y-6">
@@ -144,11 +220,11 @@ export default function BiomarkerTrends() {
         </div>
       ) : error ? (
         <p className="py-12 text-center text-sm text-red-300">{error}</p>
-      ) : readings.length === 0 ? (
+      ) : allEmpty ? (
         <div className="flex flex-col items-center gap-3 py-12 text-center">
           <LineChartIcon className="size-8 text-blue-100/40" />
           <p className="text-sm text-blue-100/70">
-            Brak pomiarów w tym zakresie. Zaloguj ketony i glukozę, aby zobaczyć trendy.
+            Brak danych w tym zakresie. Zaloguj ketony, glukozę, posiłki i aktywność, aby zobaczyć trendy.
           </p>
           <a
             href="/dashboard"
@@ -159,44 +235,91 @@ export default function BiomarkerTrends() {
         </div>
       ) : (
         <div className="space-y-8">
-          {readings.length <= 2 && (
-            <p className="text-xs text-blue-100/50">Loguj dalej, aby zobaczyć wyraźniejsze trendy.</p>
+          {/* Biomarker charts (GKI hero + ketones/glucose), or one empty note. */}
+          {readings.length === 0 ? (
+            <ChartEmpty message="Brak pomiarów w tym zakresie. Zaloguj ketony i glukozę, aby zobaczyć trendy biomarkerów." />
+          ) : (
+            <>
+              {readings.length <= SPARSE_THRESHOLD && <SparseHint />}
+
+              {/* GKI hero chart with ketosis zones. */}
+              <section>
+                <h3 className="mb-2 text-sm font-semibold tracking-wide text-blue-100/70 uppercase">GKI</h3>
+                <LineChart
+                  from={from}
+                  to={to}
+                  series={gkiSeries}
+                  leftAxis={{ label: "GKI", unit: "index" }}
+                  bands={GKI_BANDS}
+                  height={220}
+                />
+                <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                  {GKI_BANDS.map((band) => (
+                    <LegendSwatch key={band.label} color={band.color.replace(/0\.\d+/, "0.9")} label={band.label} />
+                  ))}
+                </div>
+                <p className="mt-1 text-xs text-blue-100/40">Orientacyjne zakresy — nie stanowią porady medycznej.</p>
+              </section>
+
+              {/* Combined ketones + glucose on two y-axes. */}
+              <section>
+                <h3 className="mb-2 text-sm font-semibold tracking-wide text-blue-100/70 uppercase">
+                  Ketony i glukoza
+                </h3>
+                <LineChart
+                  from={from}
+                  to={to}
+                  series={dualSeries}
+                  leftAxis={{ label: "Ketony", unit: "mmol/L" }}
+                  rightAxis={{ label: "Glukoza", unit: "mg/dL" }}
+                  height={200}
+                />
+                <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                  <LegendSwatch color={KETONES_COLOR} label="Ketony (mmol/L, lewa oś)" />
+                  <LegendSwatch color={GLUCOSE_COLOR} label="Glukoza (mg/dL, prawa oś)" />
+                </div>
+              </section>
+            </>
           )}
 
-          {/* GKI hero chart with ketosis zones. */}
+          {/* Diet: stacked fat/protein/carbs bars, aligned to the same window. */}
           <section>
-            <h3 className="mb-2 text-sm font-semibold tracking-wide text-blue-100/70 uppercase">GKI</h3>
-            <LineChart
-              from={from}
-              to={to}
-              series={gkiSeries}
-              leftAxis={{ label: "GKI", unit: "index" }}
-              bands={GKI_BANDS}
-              height={220}
-            />
-            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
-              {GKI_BANDS.map((band) => (
-                <LegendSwatch key={band.label} color={band.color.replace(/0\.\d+/, "0.9")} label={band.label} />
-              ))}
-            </div>
-            <p className="mt-1 text-xs text-blue-100/40">Orientacyjne zakresy — nie stanowią porady medycznej.</p>
+            <h3 className="mb-2 text-sm font-semibold tracking-wide text-blue-100/70 uppercase">Dieta (makro)</h3>
+            {dietDays.length === 0 ? (
+              <ChartEmpty message="Brak posiłków w tym zakresie. Zaloguj posiłki, aby zobaczyć makroskładniki." />
+            ) : (
+              <>
+                <BarChart from={from} to={to} days={dietDays} leftAxis={{ label: "Makro", unit: "g" }} height={200} />
+                <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                  <LegendSwatch color={CARBS_COLOR} label="Węglowodany (g)" />
+                  <LegendSwatch color={FAT_COLOR} label="Tłuszcz (g)" />
+                  <LegendSwatch color={PROTEIN_COLOR} label="Białko (g)" />
+                </div>
+                {dietDays.length <= SPARSE_THRESHOLD && <SparseHint />}
+              </>
+            )}
           </section>
 
-          {/* Combined ketones + glucose on two y-axes. */}
+          {/* Activity: estimated kcal burned per day, aligned to the same window. */}
           <section>
-            <h3 className="mb-2 text-sm font-semibold tracking-wide text-blue-100/70 uppercase">Ketony i glukoza</h3>
-            <LineChart
-              from={from}
-              to={to}
-              series={dualSeries}
-              leftAxis={{ label: "Ketony", unit: "mmol/L" }}
-              rightAxis={{ label: "Glukoza", unit: "mg/dL" }}
-              height={200}
-            />
-            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
-              <LegendSwatch color={KETONES_COLOR} label="Ketony (mmol/L, lewa oś)" />
-              <LegendSwatch color={GLUCOSE_COLOR} label="Glukoza (mg/dL, prawa oś)" />
-            </div>
+            <h3 className="mb-2 text-sm font-semibold tracking-wide text-blue-100/70 uppercase">Aktywność</h3>
+            {activityDays.length === 0 ? (
+              <ChartEmpty message="Brak aktywności w tym zakresie. Zaloguj aktywność, aby zobaczyć spalone kalorie." />
+            ) : (
+              <>
+                <BarChart
+                  from={from}
+                  to={to}
+                  days={activityDays}
+                  leftAxis={{ label: "Aktywność", unit: "kcal" }}
+                  height={180}
+                />
+                <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                  <LegendSwatch color={ACTIVITY_COLOR} label="Spalone kalorie (kcal)" />
+                </div>
+                {activityDays.length <= SPARSE_THRESHOLD && <SparseHint />}
+              </>
+            )}
           </section>
         </div>
       )}

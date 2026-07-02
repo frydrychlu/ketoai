@@ -407,28 +407,28 @@ RLS unchanged.
 
 #### Automated
 
-- [x] 2.1 Type checking passes
-- [x] 2.2 Linting passes
-- [x] 2.3 Build produces the Worker bundle with no new dependency in `package.json`
+- [x] 2.1 Type checking passes — c246ddc
+- [x] 2.2 Linting passes — c246ddc
+- [x] 2.3 Build produces the Worker bundle with no new dependency in `package.json` — c246ddc
 
 #### Manual
 
-- [ ] 2.4 Stacked day shows fat/protein/carbs segments summing to the day total; single-series day shows one bar
-- [ ] 2.5 Bars sit at the same x-position as the same date on a `LineChart` (column alignment holds at 7 and 30 days)
-- [ ] 2.6 A window with gaps shows bars only on days present in the series (no phantom zero bars)
+- [x] 2.4 Stacked day shows fat/protein/carbs segments summing to the day total; single-series day shows one bar
+- [x] 2.5 Bars sit at the same x-position as the same date on a `LineChart` (column alignment holds at 7 and 30 days)
+- [x] 2.6 A window with gaps shows bars only on days present in the series (no phantom zero bars)
 
 ### Phase 3: Correlation charts in the trends island
 
 #### Automated
 
-- [ ] 3.1 Type checking passes
-- [ ] 3.2 Linting passes
-- [ ] 3.3 Build passes with no new charting dependency in `package.json`
+- [x] 3.1 Type checking passes
+- [x] 3.2 Linting passes
+- [x] 3.3 Build passes with no new charting dependency in `package.json`
 
 #### Manual
 
-- [ ] 3.4 With all three streams logged, GKI/ketones/glucose charts + macro bar chart + activity bar chart render, columns aligned
-- [ ] 3.5 Biomarkers-only data shows per-chart empty states for diet and activity (page not blanked)
-- [ ] 3.6 7/14/30 toggle re-fetches and redraws all charts; bars stay column-aligned with the lines
-- [ ] 3.7 A skipped diet day shows a gap (no bar) while the GKI line spans it
-- [ ] 3.8 Signed out redirects to `/auth/signin`; a second user sees only their own data
+- [x] 3.4 With all three streams logged, GKI/ketones/glucose charts + macro bar chart + activity bar chart render, columns aligned
+- [x] 3.5 Biomarkers-only data shows per-chart empty states for diet and activity (page not blanked)
+- [x] 3.6 7/14/30 toggle re-fetches and redraws all charts; bars stay column-aligned with the lines
+- [x] 3.7 A skipped diet day shows a gap (no bar) while the GKI line spans it
+- [x] 3.8 Signed out redirects to `/auth/signin`; a second user sees only their own data
