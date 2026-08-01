@@ -1,7 +1,7 @@
 ---
 change_id: past-day-readonly-view
 title: Past-day read-only view
-status: implemented
+status: impl_reviewed
 created: 2026-08-01
 updated: 2026-08-01
 archived_at: null
