@@ -1,7 +1,7 @@
 ---
 change_id: on-demand-ai-analysis
 title: On demand ai analysis
-status: implementing
+status: implemented
 created: 2026-08-01
 updated: 2026-08-01
 archived_at: null

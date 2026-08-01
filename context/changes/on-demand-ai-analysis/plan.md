@@ -264,7 +264,7 @@ None — the analysis is ephemeral; no schema changes. All reads reuse existing 
 
 #### Manual
 
-- [ ] 1.4 `gatherAnalysisWindow` returns correct coverage counts against seeded data
+- [x] 1.4 `gatherAnalysisWindow` returns correct coverage counts against seeded data
 
 ### Phase 2: AI analysis service & API route
 
@@ -276,23 +276,23 @@ None — the analysis is ephemeral; no schema changes. All reads reuse existing 
 
 #### Manual
 
-- [ ] 2.4 `POST /api/analysis` with `window_days: 14` on seeded account returns `status: "ok"` with all fields + matching coverage
-- [ ] 2.5 Empty account returns `status: "empty"` with no OpenRouter call
-- [ ] 2.6 Invalid `window_days` (e.g. 10) returns 400
+- [x] 2.4 `POST /api/analysis` with `window_days: 14` on seeded account returns `status: "ok"` with all fields + matching coverage
+- [x] 2.5 Empty account returns `status: "empty"` with no OpenRouter call
+- [x] 2.6 Invalid `window_days` (e.g. 10) returns 400
 
 ### Phase 3: Analysis page, island & nav wiring
 
 #### Automated
 
-- [x] 3.1 Type checking passes: `npx astro sync && npx astro check`
-- [x] 3.2 Linting passes: `npm run lint`
-- [x] 3.3 Build passes: `npm run build`
+- [x] 3.1 Type checking passes: `npx astro sync && npx astro check` — 135b8b0
+- [x] 3.2 Linting passes: `npm run lint` — 135b8b0
+- [x] 3.3 Build passes: `npm run build` — 135b8b0
 
 #### Manual
 
-- [ ] 3.4 Unauthenticated `/analysis` redirects to `/auth/signin`
-- [ ] 3.5 Seeded 14-day request renders summary, causes+evidence, confidence badge, limitations note
-- [ ] 3.6 Re-requesting a different window regenerates (nothing persisted)
-- [ ] 3.7 Empty account shows "log more days" guidance, no error
-- [ ] 3.8 Forced LLM failure shows friendly Polish error
-- [ ] 3.9 Dashboard "Analysis" link navigates to the page
+- [x] 3.4 Unauthenticated `/analysis` redirects to `/auth/signin`
+- [x] 3.5 Seeded 14-day request renders summary, causes+evidence, confidence badge, limitations note
+- [x] 3.6 Re-requesting a different window regenerates (nothing persisted)
+- [x] 3.7 Empty account shows "log more days" guidance, no error
+- [x] 3.8 Forced LLM failure shows friendly Polish error
+- [x] 3.9 Dashboard "Analysis" link navigates to the page
