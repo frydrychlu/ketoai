@@ -214,3 +214,85 @@ export interface UpsertWellnessEntryCommand {
   water_liters: number | null;
   notes: string | null;
 }
+
+// --- AI analysis (S-09) ----------------------------------------------------
+
+/**
+ * The window sizes (in days) the on-demand analysis offers. Fixed presets — the
+ * route's Zod schema and the island's selector both source their values here.
+ * 14 is the FR-012 default.
+ */
+export const ANALYSIS_WINDOWS = [7, 14, 30] as const;
+
+/** One of the allowed analysis window sizes. */
+export type AnalysisWindowDays = (typeof ANALYSIS_WINDOWS)[number];
+
+/**
+ * How many days within the requested window actually hold data of each type,
+ * computed server-side from the gathered rows. Passed into the prompt as
+ * ground-truth facts so the model hedges against real sparsity (the FR-012
+ * guardrail) rather than guessing. `hasAnyData` gates the LLM call: a window
+ * with zero data of every type short-circuits to the empty response.
+ */
+export interface AnalysisCoverage {
+  /** N — the requested window size in days. */
+  totalDays: number;
+  /** Days in the window that have at least one meal. */
+  mealDays: number;
+  /** Days in the window that have at least one activity. */
+  activityDays: number;
+  /** Days in the window that have a biomarker reading. */
+  biomarkerDays: number;
+  /** Days in the window that have a wellness entry. */
+  wellnessDays: number;
+  /** Whether the profile exists (baseline context for the analysis). */
+  hasProfile: boolean;
+  /** True when any data type has at least one day of data. */
+  hasAnyData: boolean;
+}
+
+/**
+ * The assembled N-day window the analysis reasons over: the user's profile plus
+ * the per-day series for each data type, plus the computed coverage. Meals and
+ * activities are pre-aggregated to daily totals (only days with data appear);
+ * biomarkers and wellness are one row per day. Built by `gatherAnalysisWindow`.
+ */
+export interface AnalysisWindow {
+  profile: HealthProfile | null;
+  meals: DailyMacroSeriesPoint[];
+  activities: DailyExpenditureSeriesPoint[];
+  biomarkers: BiomarkerReading[];
+  wellness: WellnessEntry[];
+  coverage: AnalysisCoverage;
+}
+
+/**
+ * One plausible cause of a deviation from ketosis, with the data observation
+ * that supports it. The model must ground each cause in the provided window.
+ */
+export interface AnalysisCause {
+  cause: string;
+  evidence: string;
+}
+
+/**
+ * The validated structured result of an analysis (mirrors
+ * `analysisResultSchema`). `confidence` and `data_limitations` are required —
+ * the model cannot omit the FR-012 hedge.
+ */
+export interface AnalysisResult {
+  summary: string;
+  causes: AnalysisCause[];
+  confidence: "low" | "medium" | "high";
+  data_limitations: string;
+}
+
+/**
+ * The `POST /api/analysis` response DTO. Discriminated on `status`: `"ok"`
+ * carries the generated result plus the coverage it was based on; `"empty"`
+ * signals a fully-empty window (no LLM call was made) so the UI shows guidance
+ * to log more days.
+ */
+export type AnalysisResponse =
+  | { status: "ok"; result: AnalysisResult; coverage: AnalysisCoverage }
+  | { status: "empty"; coverage: AnalysisCoverage };

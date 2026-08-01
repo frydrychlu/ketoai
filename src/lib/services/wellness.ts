@@ -22,6 +22,31 @@ export async function getEntry(supabase: SupabaseClient, day: string): Promise<W
 }
 
 /**
+ * Read all of the current user's wellness entries within an inclusive
+ * `[from, to]` calendar-date range, ordered by day ascending — the window the
+ * on-demand AI analysis (S-09) aggregates. RLS scopes the query to the logged-in
+ * user, so no explicit user_id filter is needed (mirrors `getEntry` and
+ * `biomarkers.listReadings`). Returns `[]` when the window holds no entries.
+ * `from`/`to` are ISO `YYYY-MM-DD`; the caller guarantees `from <= to`. One row
+ * per day, so no group-by is needed.
+ */
+export async function listEntries(supabase: SupabaseClient, from: string, to: string): Promise<WellnessEntry[]> {
+  const { data, error } = await supabase
+    .from("wellness_entries")
+    .select("*")
+    .gte("day", from)
+    .lte("day", to)
+    .order("day", { ascending: true })
+    .overrideTypes<WellnessEntry[], { merge: false }>();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+/**
  * Insert-or-update the current user's singleton wellness entry for a day, keyed
  * on the `unique (user_id, day)` constraint.
  *
