@@ -3,7 +3,7 @@ project: KetoAI
 version: 1
 status: draft
 created: 2026-06-02
-updated: 2026-07-02
+updated: 2026-08-01
 prd_version: 1
 main_goal: speed
 top_blocker: skills
@@ -37,7 +37,7 @@ KetoAI aggregates a keto practitioner's daily meals, physical activity, and biom
 | S-05  | wellness-logging           | log mood, energy, sleep, water, and freeform notes for the day    | F-01                   | FR-007                | done     |
 | S-06  | biomarker-trend-dashboard  | see GKI / ketone / glucose trend charts over time                 | S-03                   | FR-009, US-01         | done     |
 | S-07  | diet-activity-correlation  | see biomarker trends visualized against diet and activity data    | S-06, S-01, S-04       | FR-010                | done     |
-| S-08  | past-day-readonly-view     | select a past date and view that day's log read-only              | S-01, S-03, S-04, S-05 | FR-011, US-02         | proposed |
+| S-08  | past-day-readonly-view     | select a past date and view that day's log read-only              | S-01, S-03, S-04, S-05 | FR-011, US-02         | done     |
 | S-09  | on-demand-ai-analysis      | request AI analysis of the last N days of data on demand          | S-01, S-02, S-03, S-04, S-05 | FR-012          | proposed |
 
 ## Streams
@@ -178,7 +178,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Parallel with:** S-07
 - **Unknowns:** —
 - **Risk:** Read-only enforcement is the load-bearing constraint (US-02: no create/edit/delete from the past-day view). Depends on the logging slices existing so there's a day to read back. Date selection is via a calendar control, not chart drill-down (explicit Non-Goal).
-- **Status:** proposed
+- **Status:** done
 
 ### S-09: On-demand AI analysis
 
@@ -225,6 +225,7 @@ None. The PRD resolved all its Open Questions ("None — all questions resolved"
 
 ## Done
 
+- **S-08: user can select a past calendar date and view that day's meals, activity, biomarkers, wellness parameters, and macro summary in read-only mode.** — Archived 2026-08-01 → `context/archive/2026-08-01-past-day-readonly-view/`. Lesson: —.
 - **S-07: user can see biomarker trends visualized against their diet (macros) and activity data, with an empty state when data is sparse.** — Archived 2026-07-02 → `context/archive/2026-07-02-diet-activity-correlation/`. Lesson: —.
 - **S-06: user can see GKI, ketone, and glucose trend charts over time, with an empty state that guides them when data is sparse.** — Archived 2026-07-02 → `context/archive/2026-07-01-biomarker-trend-dashboard/`. Lesson: —.
 - **S-01: user can log a meal by describing it in text and immediately see today's macro total (fat, protein, carbs, calories) update.** — Archived 2026-07-02 → `context/archive/2026-06-09-meal-macro-logging/`. Lesson: —.
