@@ -11,7 +11,9 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "seed:trends": "docker exec -i supabase_db_10x-astro-starter psql -U postgres -d postgres < supabase/seeds/biomarker_trends_seed.sql",
-    "clear:trends": "docker exec -i supabase_db_10x-astro-starter psql -U postgres -d postgres < supabase/seeds/biomarker_trends_clear.sql"
+    "clear:trends": "docker exec -i supabase_db_10x-astro-starter psql -U postgres -d postgres < supabase/seeds/biomarker_trends_clear.sql",
+    "seed:history": "docker exec -i supabase_db_10x-astro-starter psql -U postgres -d postgres < supabase/seeds/history_seed.sql",
+    "clear:history": "docker exec -i supabase_db_10x-astro-starter psql -U postgres -d postgres < supabase/seeds/history_clear.sql"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.2",
