@@ -243,33 +243,33 @@ None — no schema or data changes.
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npx astro sync && npx astro check`
-- [x] 1.2 Linting passes: `npm run lint`
-- [x] 1.3 Production build passes: `npm run build`
+- [x] 1.1 Type checking passes: `npx astro sync && npx astro check` — 903d819
+- [x] 1.2 Linting passes: `npm run lint` — 903d819
+- [x] 1.3 Production build passes: `npm run build` — 903d819
 
 #### Manual
 
-- [x] 1.4 `/history` while signed out redirects to `/auth/signin`
-- [x] 1.5 `/history` while signed in renders with date picker defaulted to today
-- [x] 1.6 Date picker cannot select a future date (`max` = local today)
-- [x] 1.7 Changing the date issues four parallel `?day=` requests with a loading state
-- [x] 1.8 A failed request surfaces a visible error state
-- [x] 1.9 "History" (dashboard) and "Back to dashboard" links navigate correctly
+- [x] 1.4 `/history` while signed out redirects to `/auth/signin` — 903d819
+- [x] 1.5 `/history` while signed in renders with date picker defaulted to today — 903d819
+- [x] 1.6 Date picker cannot select a future date (`max` = local today) — 903d819
+- [x] 1.7 Changing the date issues four parallel `?day=` requests with a loading state — 903d819
+- [x] 1.8 A failed request surfaces a visible error state — 903d819
+- [x] 1.9 "History" (dashboard) and "Back to dashboard" links navigate correctly — 903d819
 
 ### Phase 2: Read-only rendering & per-type empty states
 
 #### Automated
 
-- [x] 2.1 Type checking passes: `npx astro sync && npx astro check`
-- [x] 2.2 Linting passes: `npm run lint`
-- [x] 2.3 Production build passes: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro sync && npx astro check` — 903d819
+- [x] 2.2 Linting passes: `npm run lint` — 903d819
+- [x] 2.3 Production build passes: `npm run build` — 903d819
 
 #### Manual
 
-- [x] 2.4 Full day renders all four sections read-only with correct values
-- [x] 2.5 Empty day renders four per-type empty states
-- [x] 2.6 Partial day renders mixed data/empty states
-- [x] 2.7 No create/edit/delete affordance exists anywhere in the view
-- [x] 2.8 Changing the date replaces all four sections (no stale content)
-- [x] 2.9 GKI, macro totals, and expenditure match the dashboard for the same day
-- [x] 2.10 Layout consistent with dashboard/`/trends` styling
+- [x] 2.4 Full day renders all four sections read-only with correct values — 903d819
+- [x] 2.5 Empty day renders four per-type empty states — 903d819
+- [x] 2.6 Partial day renders mixed data/empty states — 903d819
+- [x] 2.7 No create/edit/delete affordance exists anywhere in the view — 903d819
+- [x] 2.8 Changing the date replaces all four sections (no stale content) — 903d819
+- [x] 2.9 GKI, macro totals, and expenditure match the dashboard for the same day — 903d819
+- [x] 2.10 Layout consistent with dashboard/`/trends` styling — 903d819
