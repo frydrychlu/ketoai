@@ -1,10 +1,10 @@
 ---
 change_id: on-demand-ai-analysis
 title: On demand ai analysis
-status: impl_reviewed
+status: archived
 created: 2026-08-01
 updated: 2026-08-01
-archived_at: null
+archived_at: 2026-08-01T14:27:27Z
 ---
 
 ## Notes

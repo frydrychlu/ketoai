@@ -38,7 +38,7 @@ KetoAI aggregates a keto practitioner's daily meals, physical activity, and biom
 | S-06  | biomarker-trend-dashboard  | see GKI / ketone / glucose trend charts over time                 | S-03                   | FR-009, US-01         | done     |
 | S-07  | diet-activity-correlation  | see biomarker trends visualized against diet and activity data    | S-06, S-01, S-04       | FR-010                | done     |
 | S-08  | past-day-readonly-view     | select a past date and view that day's log read-only              | S-01, S-03, S-04, S-05 | FR-011, US-02         | done     |
-| S-09  | on-demand-ai-analysis      | request AI analysis of the last N days of data on demand          | S-01, S-02, S-03, S-04, S-05 | FR-012          | proposed |
+| S-09  | on-demand-ai-analysis      | request AI analysis of the last N days of data on demand          | S-01, S-02, S-03, S-04, S-05 | FR-012          | done     |
 
 ## Streams
 
@@ -190,7 +190,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Unknowns:**
   - How is the "state confidence level and data limitations when the window is sparse" requirement enforced in the prompt/response contract? — Owner: user. Block: no (a `/10x-plan` design detail, not a sequencing blocker).
 - **Risk:** Sequenced last among features — it needs accumulated data across all logging types plus profile context (S-02) to produce non-generic insight. Reuses the AI-on-Workers boundary proven in S-01, so the platform risk is already retired by the time this lands. Must hedge explicitly on sparse data (PRD guardrail).
-- **Status:** proposed
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -225,6 +225,7 @@ None. The PRD resolved all its Open Questions ("None — all questions resolved"
 
 ## Done
 
+- **S-09: user can request an AI analysis of their last N days of logged data (N configurable, default 14) that identifies plausible causes of deviations from ketosis and states its confidence and data limitations.** — Archived 2026-08-01 → `context/archive/2026-08-01-on-demand-ai-analysis/`. Lesson: —.
 - **S-08: user can select a past calendar date and view that day's meals, activity, biomarkers, wellness parameters, and macro summary in read-only mode.** — Archived 2026-08-01 → `context/archive/2026-08-01-past-day-readonly-view/`. Lesson: —.
 - **S-07: user can see biomarker trends visualized against their diet (macros) and activity data, with an empty state when data is sparse.** — Archived 2026-07-02 → `context/archive/2026-07-02-diet-activity-correlation/`. Lesson: —.
 - **S-06: user can see GKI, ketone, and glucose trend charts over time, with an empty state that guides them when data is sparse.** — Archived 2026-07-02 → `context/archive/2026-07-01-biomarker-trend-dashboard/`. Lesson: —.
