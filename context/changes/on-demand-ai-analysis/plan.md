@@ -270,9 +270,9 @@ None — the analysis is ephemeral; no schema changes. All reads reuse existing 
 
 #### Automated
 
-- [x] 2.1 Type checking passes: `npx astro sync && npx astro check`
-- [x] 2.2 Linting passes: `npm run lint`
-- [x] 2.3 Build passes: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro sync && npx astro check` — 9604670
+- [x] 2.2 Linting passes: `npm run lint` — 9604670
+- [x] 2.3 Build passes: `npm run build` — 9604670
 
 #### Manual
 
@@ -284,9 +284,9 @@ None — the analysis is ephemeral; no schema changes. All reads reuse existing 
 
 #### Automated
 
-- [ ] 3.1 Type checking passes: `npx astro sync && npx astro check`
-- [ ] 3.2 Linting passes: `npm run lint`
-- [ ] 3.3 Build passes: `npm run build`
+- [x] 3.1 Type checking passes: `npx astro sync && npx astro check`
+- [x] 3.2 Linting passes: `npm run lint`
+- [x] 3.3 Build passes: `npm run build`
 
 #### Manual
 
