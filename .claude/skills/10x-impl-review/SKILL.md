@@ -259,24 +259,13 @@ Plain text, box-drawing. PASS dimensions appear only in the verdicts table, neve
 - **Impact always carries its one-line meaning** (copy from the Impact table — "architectural stakes; think carefully before deciding" / "real tradeoff; pause to reason through it" / "quick decision; fix is obvious and narrowly scoped"). This makes LOW/MEDIUM/HIGH self-explanatory at the point of use instead of relying on the user to remember the table.
 - Severity, Impact, Dimension, Location are each on their own line with aligned labels. Detail starts on its own line under a `Detail:` label so it can wrap naturally.
 
-After the report, ask:
+### Saving the report (always)
 
-```
-question: "Review complete. How would you like to proceed?"
-header: "Implementation Review — [N] findings"
-options:
-  - label: "Triage findings"
-    description: "Walk through each finding and decide."
-  - label: "Save report & triage later"
-    description: "Save the full report. Resume with /10x-impl-review <report-path>."
-  - label: "Save report only"
-    description: "Save and finish — I'll handle the findings myself."
-multiSelect: false
-```
+**Every path through this skill persists the report and stamps the change** — Triage now, Triage later, and Done all write the file. This is what lets `/10x-archive` and `/10x-status` see the review and keeps `change.md.status` correct. Do this *before* presenting the proceed options — never conditionally, and never only on the "save" branches.
 
-### Saving the report
-
-Save to `context/changes/<change-id>/reviews/impl-review.md` (or `context/changes/<change-id>/reviews/impl-review-phase-N.md` for a phase-scoped review). Update `change.md`: set `status: impl_reviewed` and `updated: <today>`. If the user opts to triage, queue any "fix in plan/code" follow-ups into `context/changes/<change-id>/follow-ups/review-fixes.md`.
+1. **Write the report file** to `context/changes/<change-id>/reviews/impl-review.md` (or `context/changes/<change-id>/reviews/impl-review-phase-N.md` for a phase-scoped review), using the format below. Create the `reviews/` directory if absent.
+2. **Stamp `change.md`**: set `status: impl_reviewed` and `updated: <today>`. Once, here — independent of which proceed option the user picks. (If a `change.md` field is already `impl_reviewed`, just refresh `updated`.)
+3. If the user later triages, the on-disk report is the working copy: its `Decision:` fields are updated in place as each finding is decided (Step 5), and any "fix in plan/code" follow-ups are queued into `context/changes/<change-id>/follow-ups/review-fixes.md`.
 
 ```markdown
 <!-- IMPL-REVIEW-REPORT -->
@@ -347,8 +336,28 @@ Save to `context/changes/<change-id>/reviews/impl-review.md` (or `context/change
 
 The `<!-- IMPL-REVIEW-REPORT -->` marker and `Decision: PENDING` fields enable resume mode.
 
-"Save & triage later" → save, print the path, remind them to run `/10x-impl-review <saved-report-path>`.
-"Triage" → proceed to Step 5.
+### Proceed options
+
+With the report already saved and `change.md` already stamped, ask how to proceed:
+
+```
+question: "Review saved to <report-path>. How would you like to proceed?"
+header: "Implementation Review — [N] findings"
+options:
+  - label: "Triage findings now"
+    description: "Walk through each finding and decide. Decisions are written back to the saved report."
+  - label: "Triage later"
+    description: "Resume with /10x-impl-review <report-path>."
+  - label: "Done"
+    description: "Report saved — I'll handle the findings myself."
+multiSelect: false
+```
+
+- **Triage findings now** → proceed to Step 5; the saved report is the working copy.
+- **Triage later** → print the saved report path and remind them to run `/10x-impl-review <report-path>`.
+- **Done** → print the saved report path and STOP.
+
+Whichever they pick, the report file and the `impl_reviewed` stamp already exist on disk — the choice only decides whether triage happens now, later, or is left to the user.
 
 ## Step 5: Interactive triage
 
@@ -410,7 +419,7 @@ multiSelect: false
 - **Skip** → SKIPPED. Move on, don't argue.
 - **Other (free text)**: interpret the user's intent. Common intents: "fix differently" (especially in dual-fix context) → ask the preferred approach, apply, mark FIXED; "accept risk" → mark ACCEPTED with the user's justification; "dismiss"/"disagree" → mark DISMISSED.
 
-After each decision, if working from a saved file, update its `Decision:` field.
+After each decision, update the saved report's `Decision:` field for that finding (the report always exists on disk — see Step 4).
 
 ### Summary
 
@@ -427,7 +436,7 @@ After each decision, if working from a saved file, update its `Decision:` field.
 ═══════════════════════════════════════════════════════════
 ```
 
-If there's a saved report, update it with final decisions. Mark the review task completed.
+Update the saved report with the final decisions. Mark the review task completed.
 
 ## Notes
 

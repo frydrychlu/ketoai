@@ -30,7 +30,9 @@
       "Bash(echo \"exit=$?\")",
       "Bash(grep -vE \"projectService|Delete|problems|potentially|^\\\\s*$|error|warning\")",
       "Bash(echo \"fix exit=$?\")",
-      "Bash(echo \"lint exit=$?\")"
+      "Bash(echo \"lint exit=$?\")",
+      "Bash(git commit -m ' *)",
+      "Bash(git fetch *)"
     ],
     "deny": [
       "Bash(rm -rf *)"

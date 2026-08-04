@@ -102,7 +102,7 @@ archived_at: null
 
 `<YYYY-MM-DD>` is today's date (use `date +%Y-%m-%d`).
 
-See `docs/reference/change-md.md` for the full schema reference (allowed status values, transitions, what is intentionally NOT in `change.md`).
+See `reference/change-md.md` for the full schema reference (allowed status values, transitions, what is intentionally NOT in `change.md`).
 
 ## Next-step suggestion
 
