@@ -506,26 +506,26 @@ Both add constraints to existing tables. **Neither is safe against pre-existing 
 
 #### Automated
 
-- [x] 4.1 All tests pass: `npm test`
-- [x] 4.2 Linting passes: `npm run lint`
-- [x] 4.3 Type checking passes: `npx astro check`
-- [x] 4.4 Build passes: `npm run build`
+- [x] 4.1 All tests pass: `npm test` — 36fe46d
+- [x] 4.2 Linting passes: `npm run lint` — 36fe46d
+- [x] 4.3 Type checking passes: `npx astro check` — 36fe46d
+- [x] 4.4 Build passes: `npm run build` — 36fe46d
 
 #### Manual
 
-- [x] 4.5 Migration applies cleanly: `npx supabase db reset`
-- [x] 4.6 The profile form stops accepting input at 2000 characters
-- [x] 4.7 An over-long value with the client cap bypassed surfaces the error banner rather than saving
+- [x] 4.5 Migration applies cleanly: `npx supabase db reset` — 36fe46d
+- [x] 4.6 The profile form stops accepting input at 2000 characters — 36fe46d
+- [x] 4.7 An over-long value with the client cap bypassed surfaces the error banner rather than saving — 36fe46d
 
 ### Phase 5: Cookbook and plan sync
 
 #### Automated
 
-- [ ] 5.1 Full suite still passes: `npm test`
-- [ ] 5.2 Linting passes: `npm run lint`
+- [x] 5.1 Full suite still passes: `npm test`
+- [x] 5.2 Linting passes: `npm run lint`
 
 #### Manual
 
-- [ ] 5.3 §6.1, §6.2, and §6.4 contain concrete patterns with file references
-- [ ] 5.4 No §6 sub-section touched by this phase still reads "TBD"
-- [ ] 5.5 A reader outside this change could add a test for a new endpoint from §6.4 alone
+- [x] 5.3 §6.1, §6.2, and §6.4 contain concrete patterns with file references
+- [x] 5.4 No §6 sub-section touched by this phase still reads "TBD"
+- [x] 5.5 A reader outside this change could add a test for a new endpoint from §6.4 alone

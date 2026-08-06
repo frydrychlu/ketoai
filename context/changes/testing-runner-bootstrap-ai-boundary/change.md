@@ -91,6 +91,14 @@ Answers to the research Open Questions, settling the plan's five phases:
   stub, since the profile route reads `FormData` and calls `context.redirect`
   rather than returning JSON. 2 new tests, 46/46 total. Closes risk #7's one
   surviving defect from research.
+- **Phase 5 (cookbook + plan sync) landed — rollout phase complete.**
+  `test-plan.md` §6.1/§6.2/§6.4/§6.6 filled in with concrete, file-referenced
+  patterns; §3 Phase 1 status → complete; §4 stack rows name Vitest 4.1.10 and
+  MSW 2.15.0; §5 gained a caveat that the "required" gate is a target state,
+  not proof CI runs (branch-trigger fix stays with §3 Phase 5); §2 risk #1 and
+  #7 rows recorded as closed with their judgment-call constants flagged for
+  re-evaluation; risk #4 gained the `max_rows = 1000` finding as an unacted
+  pointer for the next `--refresh`.
 
 ### Consequences carried into the plan
 
