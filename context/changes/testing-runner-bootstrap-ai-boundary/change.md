@@ -63,6 +63,29 @@ Answers to the research Open Questions, settling the plan's five phases:
   cleanly. **Accepted risk:** a later migration could weaken one with no automated signal
   until §3 Phase 3 makes the local Supabase stack a test dependency.
 
+### Implementation progress
+
+- **Phase 1 (runner bootstrap) landed at `6febac8`.** Vitest 4 + MSW 2, the
+  `astro:env/server` stub, MSW tripwire harness, `APIContext` route harness,
+  `tests/**` ESLint override, and a passing smoke test. One unplanned fix along
+  the way: `npm run lint` was failing on 20 pre-existing errors inside
+  `.claude/worktrees/research-ai-boundary/`, a stray untracked nested repo copy
+  unrelated to this change — excluded via `.gitignore` (directory left untouched).
+- **Phase 2 (risk #7 request-boundary lock) landed at `284d55b`.** All 22 tests
+  pass against unchanged production code — a pure regression lock, no red tests.
+  Verified the lock is real (not a mirror) by temporarily widening
+  `ANALYSIS_WINDOWS` to include `31`: exactly the `rejects window_days=31` case
+  failed, confirming the hard-coded rejected-values list catches drift instead of
+  silently absorbing it.
+- **Phase 3 (risk #1 guards + tests) landed.** Ceilings (Zod + DB CHECK) on all
+  five AI-derived numerics, plus the asymmetric Atwater band on the meal path.
+  18 new tests, 44/44 total. Verified each guard binds to its test — not
+  incidental behaviour — by reverting each in isolation: ceilings-only revert
+  failed exactly the 4 ceiling tests, Atwater-only revert failed exactly the 1
+  Atwater-rejection test, activity-ceiling revert failed exactly its 1 test; all
+  other tests stayed green in each case. Migration verified against a fresh
+  local stack (`npx supabase db reset`).
+
 ### Consequences carried into the plan
 
 - Tests live in a top-level `tests/` tree — Astro routes every `.ts` file under

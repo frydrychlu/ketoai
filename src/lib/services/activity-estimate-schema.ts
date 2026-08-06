@@ -9,8 +9,11 @@ import { z } from "zod";
  * `public.activities.calories_kcal` column so the validated result maps straight
  * through with no translation layer.
  */
+// Ceiling only — unlike the meal path, a single number has no correlate to
+// check for internal consistency, so no Atwater-style cross-field guard is
+// possible here.
 export const activityEstimateResultSchema = z.object({
-  calories_kcal: z.number().min(0),
+  calories_kcal: z.number().min(0).max(10000),
 });
 
 export type ActivityEstimateResult = z.infer<typeof activityEstimateResultSchema>;

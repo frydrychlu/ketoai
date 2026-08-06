@@ -478,29 +478,29 @@ Both add constraints to existing tables. **Neither is safe against pre-existing 
 
 #### Automated
 
-- [x] 2.1 All risk-#7 tests pass against unchanged production code: `npm test`
-- [x] 2.2 Linting passes: `npm run lint`
-- [x] 2.3 Type checking passes: `npx astro check`
+- [x] 2.1 All risk-#7 tests pass against unchanged production code: `npm test` — 284d55b
+- [x] 2.2 Linting passes: `npm run lint` — 284d55b
+- [x] 2.3 Type checking passes: `npx astro check` — 284d55b
 
 #### Manual
 
-- [x] 2.4 `git diff` for this phase touches only `tests/`
-- [x] 2.5 Temporarily widening `ANALYSIS_WINDOWS` makes test 7.1 fail; reverted afterwards
+- [x] 2.4 `git diff` for this phase touches only `tests/` — 284d55b
+- [x] 2.5 Temporarily widening `ANALYSIS_WINDOWS` makes test 7.1 fail; reverted afterwards — 284d55b
 
 ### Phase 3: Risk #1 — plausibility guards and tests
 
 #### Automated
 
-- [ ] 3.1 All tests pass: `npm test`
-- [ ] 3.2 Linting passes: `npm run lint`
-- [ ] 3.3 Type checking passes: `npx astro check`
-- [ ] 3.4 Build passes: `npm run build`
+- [x] 3.1 All tests pass: `npm test`
+- [x] 3.2 Linting passes: `npm run lint`
+- [x] 3.3 Type checking passes: `npx astro check`
+- [x] 3.4 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 3.5 Migration applies cleanly against a fresh local stack: `npx supabase db reset`
-- [ ] 3.6 Reverting either schema guard makes the corresponding test fail
-- [ ] 3.7 Optional selective mutation check on `macro-schema.ts`; survived mutants judged by user/business impact
+- [x] 3.5 Migration applies cleanly against a fresh local stack: `npx supabase db reset`
+- [x] 3.6 Reverting either schema guard makes the corresponding test fail
+- [x] 3.7 Optional selective mutation check on `macro-schema.ts`; survived mutants judged by user/business impact
 
 ### Phase 4: `health_goals` bound
 
