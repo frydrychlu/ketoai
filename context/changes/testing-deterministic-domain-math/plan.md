@@ -294,10 +294,10 @@ Not applicable — no schema or data changes.
 
 #### Automated
 
-- [x] 4.1 `npx stryker run` completes and produces an HTML report
-- [x] 4.2 Full suite still passes after any mutant-driven assertion additions: `npm test`
+- [x] 4.1 `npx stryker run` completes and produces an HTML report — 30e6780
+- [x] 4.2 Full suite still passes after any mutant-driven assertion additions: `npm test` — 30e6780
 
 #### Manual
 
-- [ ] 4.3 Every survived mutant has an explicit ignore/fix decision recorded
-- [ ] 4.4 `test-plan.md` §6.6 Phase 2 entry reads clearly to someone who hasn't read this plan
+- [x] 4.3 Every survived mutant has an explicit ignore/fix decision recorded — 30e6780
+- [x] 4.4 `test-plan.md` §6.6 Phase 2 entry reads clearly to someone who hasn't read this plan — 30e6780
