@@ -269,22 +269,22 @@ Not applicable — no schema or data changes.
 
 #### Automated
 
-- [x] 2.1 `npm test -- tests/services/meals.test.ts` passes
-- [x] 2.2 `npm test -- tests/services/activities.test.ts` passes
-- [x] 2.3 `npm test -- tests/api/meals.test.ts` passes (existing + new describe block)
-- [x] 2.4 `npm test -- tests/api/activities.test.ts` passes
-- [x] 2.5 Full suite still passes: `npm test`
+- [x] 2.1 `npm test -- tests/services/meals.test.ts` passes — 642b18d
+- [x] 2.2 `npm test -- tests/services/activities.test.ts` passes — 642b18d
+- [x] 2.3 `npm test -- tests/api/meals.test.ts` passes (existing + new describe block) — 642b18d
+- [x] 2.4 `npm test -- tests/api/activities.test.ts` passes — 642b18d
+- [x] 2.5 Full suite still passes: `npm test` — 642b18d
 
 #### Manual
 
-- [ ] 2.6 Read the four new/extended test files side by side and confirm the zero-fill vs. omission contrast is legible
+- [x] 2.6 Read the four new/extended test files side by side and confirm the zero-fill vs. omission contrast is legible — 642b18d
 
 ### Phase 3: Calendar-day validity boundary (meals route, representative)
 
 #### Automated
 
-- [ ] 3.1 `npm test -- tests/api/meals.test.ts` passes (all three describe blocks)
-- [ ] 3.2 Full suite still passes: `npm test`
+- [x] 3.1 `npm test -- tests/api/meals.test.ts` passes (all three describe blocks)
+- [x] 3.2 Full suite still passes: `npm test`
 
 #### Manual
 

@@ -2,7 +2,14 @@ import { describe, it, expect } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../setup";
 import { buildApiContext } from "../helpers/api-context";
-import { OPENROUTER_URL, postgrestRows, postgrestTripwire } from "../helpers/msw";
+import {
+  OPENROUTER_URL,
+  SUPABASE_ORIGIN,
+  openRouterSuccess,
+  openRouterTripwire,
+  postgrestRows,
+  postgrestTripwire,
+} from "../helpers/msw";
 import { GET, POST } from "@/pages/api/meals/index";
 
 // Risk #1 (test-plan.md §2): the property risk #1 is actually about — a
@@ -55,5 +62,66 @@ describe("GET /api/meals — empty-day omission, not zero-fill, in range results
     expect(body.dailyTotals).toEqual([
       { day: "2026-08-01", fat_g: 10, protein_g: 20, carbs_g: 5, calories_kcal: 210 },
     ]);
+  });
+});
+
+// Risk #4 (test-plan.md §2): daySchema's round-trip refine — not just its
+// regex — decides which day an entry counts toward. 2026 is not a leap year
+// (2026 mod 4 = 2); the leap-day pair below uses 2024 (leap) and 2023 (not),
+// per research.md, to avoid silently testing the wrong thing.
+
+describe("GET/POST /api/meals — day validity boundary (risk #4)", () => {
+  it("GET rejects a structurally-valid but nonexistent date (2026-02-30) with 400", async () => {
+    const response = await GET(buildApiContext({ method: "GET", url: "https://app.test/api/test?day=2026-02-30" }));
+
+    expect(response.status).toBe(400);
+  });
+
+  it("GET rejects a regex-invalid date (2026-13-45) with 400", async () => {
+    const response = await GET(buildApiContext({ method: "GET", url: "https://app.test/api/test?day=2026-13-45" }));
+
+    expect(response.status).toBe(400);
+  });
+
+  it("POST rejects a structurally-valid but nonexistent date (2026-02-30) with 400, no model call, no write", async () => {
+    server.use(openRouterTripwire(), postgrestTripwire());
+
+    const response = await POST(buildApiContext({ body: { description: "test meal", day: "2026-02-30" } }));
+
+    expect(response.status).toBe(400);
+  });
+
+  it("POST rejects Feb 29 in a non-leap year (2023-02-29) with 400, no model call, no write", async () => {
+    server.use(openRouterTripwire(), postgrestTripwire());
+
+    const response = await POST(buildApiContext({ body: { description: "test meal", day: "2023-02-29" } }));
+
+    expect(response.status).toBe(400);
+  });
+
+  it("POST accepts a real leap day (2024-02-29) and proceeds to the model call", async () => {
+    server.use(
+      openRouterSuccess({ fat_g: 10, protein_g: 20, carbs_g: 5, calories_kcal: 190 }),
+      http.post(`${SUPABASE_ORIGIN}/rest/v1/meals`, () =>
+        HttpResponse.json({
+          id: "33333333-3333-4333-8333-333333333333",
+          user_id: "11111111-1111-4111-8111-111111111111",
+          description: "test meal",
+          fat_g: 10,
+          protein_g: 20,
+          carbs_g: 5,
+          calories_kcal: 190,
+          day: "2024-02-29",
+          logged_at: "2024-02-29T12:00:00.000Z",
+        }),
+      ),
+      postgrestRows("meals", [
+        { id: "33333333-3333-4333-8333-333333333333", fat_g: 10, protein_g: 20, carbs_g: 5, calories_kcal: 190 },
+      ]),
+    );
+
+    const response = await POST(buildApiContext({ body: { description: "test meal", day: "2024-02-29" } }));
+
+    expect(response.status).toBe(201);
   });
 });
