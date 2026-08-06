@@ -1,7 +1,7 @@
 ---
 change_id: testing-runner-bootstrap-ai-boundary
 title: Test-runner bootstrap and AI boundary
-status: implementing
+status: implemented
 created: 2026-08-04
 updated: 2026-08-06
 archived_at: null

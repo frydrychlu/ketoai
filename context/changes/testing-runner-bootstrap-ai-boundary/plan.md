@@ -521,11 +521,11 @@ Both add constraints to existing tables. **Neither is safe against pre-existing 
 
 #### Automated
 
-- [x] 5.1 Full suite still passes: `npm test`
-- [x] 5.2 Linting passes: `npm run lint`
+- [x] 5.1 Full suite still passes: `npm test` — 898be66
+- [x] 5.2 Linting passes: `npm run lint` — 898be66
 
 #### Manual
 
-- [x] 5.3 §6.1, §6.2, and §6.4 contain concrete patterns with file references
-- [x] 5.4 No §6 sub-section touched by this phase still reads "TBD"
-- [x] 5.5 A reader outside this change could add a test for a new endpoint from §6.4 alone
+- [x] 5.3 §6.1, §6.2, and §6.4 contain concrete patterns with file references — 898be66
+- [x] 5.4 No §6 sub-section touched by this phase still reads "TBD" — 898be66
+- [x] 5.5 A reader outside this change could add a test for a new endpoint from §6.4 alone — 898be66
