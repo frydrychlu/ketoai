@@ -14,7 +14,10 @@ const updateHealthProfileSchema = z.object({
   weight_kg: z.number().min(20).max(500).nullable(),
   height_cm: z.number().min(50).max(250).nullable(),
   activity_level: z.enum(ACTIVITY_LEVELS).nullable(),
-  health_goals: z.string().min(1).nullable(),
+  // 2000 mirrors wellness.notes — the sibling free-text field that already
+  // carries the full triple (Zod, DB CHECK, textarea maxLength). health_goals
+  // is re-sent in full on every FR-012 analysis request, at every window size.
+  health_goals: z.string().min(1).max(2000).nullable(),
 });
 
 // Human labels for the validation banner, so a server-side rejection reads

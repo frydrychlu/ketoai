@@ -85,6 +85,12 @@ Answers to the research Open Questions, settling the plan's five phases:
   Atwater-rejection test, activity-ceiling revert failed exactly its 1 test; all
   other tests stayed green in each case. Migration verified against a fresh
   local stack (`npx supabase db reset`).
+- **Phase 4 (health_goals bound) landed.** Applied the exact `wellness.notes`
+  triple at 2000 chars: Zod `.max(2000)`, a DB CHECK, and textarea `maxLength`.
+  `tests/helpers/api-context.ts` gained a `formBody` variant and a `redirect`
+  stub, since the profile route reads `FormData` and calls `context.redirect`
+  rather than returning JSON. 2 new tests, 46/46 total. Closes risk #7's one
+  surviving defect from research.
 
 ### Consequences carried into the plan
 

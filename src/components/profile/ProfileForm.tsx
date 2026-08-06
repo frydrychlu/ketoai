@@ -21,6 +21,9 @@ const RANGES = {
   height_cm: { min: 50, max: 250 },
 } as const;
 
+// Mirrors the Zod .max(2000) and DB CHECK on health_goals (WellnessLogger.tsx's NOTES_MAX pattern).
+const GOALS_MAX = 2000;
+
 type NumericField = keyof typeof RANGES;
 
 interface Props {
@@ -177,6 +180,7 @@ export default function ProfileForm({ initial, serverError, saved }: Props) {
             setGoals(e.target.value);
           }}
           rows={4}
+          maxLength={GOALS_MAX}
           placeholder="What are you aiming for? (e.g. lower GKI, lose fat, maintain ketosis)"
           className={cn(
             "w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white placeholder-white/40",

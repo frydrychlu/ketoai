@@ -491,31 +491,31 @@ Both add constraints to existing tables. **Neither is safe against pre-existing 
 
 #### Automated
 
-- [x] 3.1 All tests pass: `npm test`
-- [x] 3.2 Linting passes: `npm run lint`
-- [x] 3.3 Type checking passes: `npx astro check`
-- [x] 3.4 Build passes: `npm run build`
+- [x] 3.1 All tests pass: `npm test` — aadbe2b
+- [x] 3.2 Linting passes: `npm run lint` — aadbe2b
+- [x] 3.3 Type checking passes: `npx astro check` — aadbe2b
+- [x] 3.4 Build passes: `npm run build` — aadbe2b
 
 #### Manual
 
-- [x] 3.5 Migration applies cleanly against a fresh local stack: `npx supabase db reset`
-- [x] 3.6 Reverting either schema guard makes the corresponding test fail
-- [x] 3.7 Optional selective mutation check on `macro-schema.ts`; survived mutants judged by user/business impact
+- [x] 3.5 Migration applies cleanly against a fresh local stack: `npx supabase db reset` — aadbe2b
+- [x] 3.6 Reverting either schema guard makes the corresponding test fail — aadbe2b
+- [x] 3.7 Optional selective mutation check on `macro-schema.ts`; survived mutants judged by user/business impact — aadbe2b
 
 ### Phase 4: `health_goals` bound
 
 #### Automated
 
-- [ ] 4.1 All tests pass: `npm test`
-- [ ] 4.2 Linting passes: `npm run lint`
-- [ ] 4.3 Type checking passes: `npx astro check`
-- [ ] 4.4 Build passes: `npm run build`
+- [x] 4.1 All tests pass: `npm test`
+- [x] 4.2 Linting passes: `npm run lint`
+- [x] 4.3 Type checking passes: `npx astro check`
+- [x] 4.4 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 4.5 Migration applies cleanly: `npx supabase db reset`
-- [ ] 4.6 The profile form stops accepting input at 2000 characters
-- [ ] 4.7 An over-long value with the client cap bypassed surfaces the error banner rather than saving
+- [x] 4.5 Migration applies cleanly: `npx supabase db reset`
+- [x] 4.6 The profile form stops accepting input at 2000 characters
+- [x] 4.7 An over-long value with the client cap bypassed surfaces the error banner rather than saving
 
 ### Phase 5: Cookbook and plan sync
 
