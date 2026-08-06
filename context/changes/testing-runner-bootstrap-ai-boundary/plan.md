@@ -464,28 +464,28 @@ Both add constraints to existing tables. **Neither is safe against pre-existing 
 
 #### Automated
 
-- [x] 1.1 Suite runs and passes: `npm test`
-- [x] 1.2 Linting passes with the new `tests/` tree present: `npm run lint`
-- [x] 1.3 Type checking passes with the new `tests/` tree present: `npx astro check`
-- [x] 1.4 Build is unaffected: `npm run build`
+- [x] 1.1 Suite runs and passes: `npm test` — 6febac8
+- [x] 1.2 Linting passes with the new `tests/` tree present: `npm run lint` — 6febac8
+- [x] 1.3 Type checking passes with the new `tests/` tree present: `npx astro check` — 6febac8
+- [x] 1.4 Build is unaffected: `npm run build` — 6febac8
 
 #### Manual
 
-- [ ] 1.5 `vitest.config.ts` contains no reference to `getViteConfig`, and the run produces no Cloudflare-adapter output
-- [ ] 1.6 Watch mode starts and re-runs on edit: `npm run test:watch`
+- [x] 1.5 `vitest.config.ts` contains no reference to `getViteConfig`, and the run produces no Cloudflare-adapter output — 6febac8
+- [x] 1.6 Watch mode starts and re-runs on edit: `npm run test:watch` — 6febac8
 
 ### Phase 2: Risk #7 — request-boundary lock
 
 #### Automated
 
-- [ ] 2.1 All risk-#7 tests pass against unchanged production code: `npm test`
-- [ ] 2.2 Linting passes: `npm run lint`
-- [ ] 2.3 Type checking passes: `npx astro check`
+- [x] 2.1 All risk-#7 tests pass against unchanged production code: `npm test`
+- [x] 2.2 Linting passes: `npm run lint`
+- [x] 2.3 Type checking passes: `npx astro check`
 
 #### Manual
 
-- [ ] 2.4 `git diff` for this phase touches only `tests/`
-- [ ] 2.5 Temporarily widening `ANALYSIS_WINDOWS` makes test 7.1 fail; reverted afterwards
+- [x] 2.4 `git diff` for this phase touches only `tests/`
+- [x] 2.5 Temporarily widening `ANALYSIS_WINDOWS` makes test 7.1 fail; reverted afterwards
 
 ### Phase 3: Risk #1 — plausibility guards and tests
 
