@@ -257,23 +257,23 @@ Not applicable — no schema or data changes.
 
 #### Automated
 
-- [x] 1.1 `npm test -- tests/services/biomarkers.test.ts` passes
-- [x] 1.2 `npm test -- tests/api/biomarkers.test.ts` passes
-- [x] 1.3 Full suite still passes: `npm test`
+- [x] 1.1 `npm test -- tests/services/biomarkers.test.ts` passes — bdc26ef
+- [x] 1.2 `npm test -- tests/api/biomarkers.test.ts` passes — bdc26ef
+- [x] 1.3 Full suite still passes: `npm test` — bdc26ef
 
 #### Manual
 
-- [ ] 1.4 Confirm the two new expected-value computations in `biomarkers.test.ts` were computed by hand from the PRD formula
+- [x] 1.4 Confirm the two new expected-value computations in `biomarkers.test.ts` were computed by hand from the PRD formula — bdc26ef
 
 ### Phase 2: Daily aggregation empty-day asymmetry (meals + activities)
 
 #### Automated
 
-- [ ] 2.1 `npm test -- tests/services/meals.test.ts` passes
-- [ ] 2.2 `npm test -- tests/services/activities.test.ts` passes
-- [ ] 2.3 `npm test -- tests/api/meals.test.ts` passes (existing + new describe block)
-- [ ] 2.4 `npm test -- tests/api/activities.test.ts` passes
-- [ ] 2.5 Full suite still passes: `npm test`
+- [x] 2.1 `npm test -- tests/services/meals.test.ts` passes
+- [x] 2.2 `npm test -- tests/services/activities.test.ts` passes
+- [x] 2.3 `npm test -- tests/api/meals.test.ts` passes (existing + new describe block)
+- [x] 2.4 `npm test -- tests/api/activities.test.ts` passes
+- [x] 2.5 Full suite still passes: `npm test`
 
 #### Manual
 
