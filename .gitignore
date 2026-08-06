@@ -27,3 +27,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Claude Code worktrees (nested repo copies from isolated agent runs)
+.claude/worktrees/

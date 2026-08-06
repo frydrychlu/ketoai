@@ -68,6 +68,19 @@ const astroConfig = tseslint.config({
   },
 });
 
+// Test harnesses cast through `unknown` to build minimal APIContext stubs and
+// read `any` off MSW-intercepted responses (`request.json()`, `response.json()`).
+// Scoped to tests/** only — src/ keeps the full strictTypeChecked preset.
+const testsConfig = tseslint.config({
+  files: ["tests/**/*.ts"],
+  rules: {
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+  },
+});
+
 export default tseslint.config(
   includeIgnoreFile(gitignorePath),
   baseConfig,
@@ -75,5 +88,6 @@ export default tseslint.config(
   eslintPluginAstro.configs["flat/recommended"],
   ...eslintPluginAstro.configs["flat/jsx-a11y-recommended"],
   astroConfig,
+  testsConfig,
   eslintPluginPrettier,
 );
