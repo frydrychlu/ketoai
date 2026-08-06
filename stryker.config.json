@@ -1,0 +1,8 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker-js/master/packages/api/schema/stryker-schema.json",
+  "packageManager": "npm",
+  "testRunner": "vitest",
+  "reporters": ["html", "json", "clear-text", "progress"],
+  "coverageAnalysis": "perTest",
+  "mutate": ["src/lib/services/biomarkers.ts", "src/lib/services/meals.ts", "src/lib/services/activities.ts"]
+}

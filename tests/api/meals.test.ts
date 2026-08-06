@@ -121,7 +121,36 @@ describe("GET/POST /api/meals — day validity boundary (risk #4)", () => {
     );
 
     const response = await POST(buildApiContext({ body: { description: "test meal", day: "2024-02-29" } }));
+    const body = await response.json();
 
     expect(response.status).toBe(201);
+    expect(body.total).toEqual({ fat_g: 10, protein_g: 20, carbs_g: 5, calories_kcal: 190 });
+  });
+});
+
+// Risk #4 (test-plan.md §2): listDailyTotals groups rows by day via a `Map`
+// (src/lib/services/meals.ts:68-76) — a second meal on a day already seen
+// must accumulate into that day's existing entry, not overwrite it. Only a
+// two-rows-same-day range fixture can distinguish "grouped and summed" from
+// "one row per day silently wins."
+
+describe("GET /api/meals — multiple meals on the same day are summed into one range entry (risk #4)", () => {
+  it("sums two meals dated the same day into a single dailyTotals entry", async () => {
+    server.use(
+      postgrestRows("meals", [
+        { day: "2026-08-01", fat_g: 10, protein_g: 20, carbs_g: 5, calories_kcal: 210 },
+        { day: "2026-08-01", fat_g: 4, protein_g: 6, carbs_g: 1, calories_kcal: 82 },
+      ]),
+    );
+
+    const response = await GET(
+      buildApiContext({ method: "GET", url: "https://app.test/api/test?from=2026-08-01&to=2026-08-02" }),
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.dailyTotals).toEqual([
+      { day: "2026-08-01", fat_g: 14, protein_g: 26, carbs_g: 6, calories_kcal: 292 },
+    ]);
   });
 });

@@ -30,3 +30,7 @@ pnpm-debug.log*
 
 # Claude Code worktrees (nested repo copies from isolated agent runs)
 .claude/worktrees/
+
+# Stryker mutation testing (selective, ad hoc — see CLAUDE.md; test-plan.md §3 Phase 2)
+reports/mutation/
+.stryker-tmp/

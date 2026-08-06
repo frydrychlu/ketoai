@@ -283,19 +283,19 @@ Not applicable — no schema or data changes.
 
 #### Automated
 
-- [x] 3.1 `npm test -- tests/api/meals.test.ts` passes (all three describe blocks)
-- [x] 3.2 Full suite still passes: `npm test`
+- [x] 3.1 `npm test -- tests/api/meals.test.ts` passes (all three describe blocks) — 755cb35
+- [x] 3.2 Full suite still passes: `npm test` — 755cb35
 
 #### Manual
 
-- [ ] 3.3 Confirm `2024-02-29` / `2023-02-29` are correctly leap/non-leap independently
+- [x] 3.3 Confirm `2024-02-29` / `2023-02-29` are correctly leap/non-leap independently — 755cb35
 
 ### Phase 4: Mutation gate + cookbook sync
 
 #### Automated
 
-- [ ] 4.1 `npx stryker run` completes and produces an HTML report
-- [ ] 4.2 Full suite still passes after any mutant-driven assertion additions: `npm test`
+- [x] 4.1 `npx stryker run` completes and produces an HTML report
+- [x] 4.2 Full suite still passes after any mutant-driven assertion additions: `npm test`
 
 #### Manual
 
